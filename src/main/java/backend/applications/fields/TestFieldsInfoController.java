@@ -26,21 +26,14 @@ public class TestFieldsInfoController
 	TestFieldsInfoRepository testFieldsInfoRepository;
 	
 	
-	@GetMapping("/fields")
-	public List<TestFieldsInfoEntity> getFieldsList()
+	@GetMapping("/fields/tables/{tableId}")
+	public List<TestFieldsInfoEntity> getFieldsList(@PathVariable long tableId)
 	{
-		Optional<List<TestFieldsInfoEntity>> tablesList= testFieldsInfoRepository.findAllOrderByFieldOrder();
+		System.out.println("Fields requested for table:"+tableId);
+		Optional<List<TestFieldsInfoEntity>> tablesList= testFieldsInfoRepository.findAllByTableNameOrderByFieldOrder(tableId);
 		
 		return tablesList.get();
 	}
 	
-	@GetMapping("/fields/fieldsorder")
-	public List<TestFieldsInfoEntity> getFieldsOrder()
-	{
-		Optional<List<TestFieldsInfoEntity>> tablesList= testFieldsInfoRepository.findAllByTableNameOrderByFieldOrder("TEST_DATA_META");
-			
-		
-		return tablesList.get();
-	}
 	
 }

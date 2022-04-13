@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import backend.applications.TestApplicationsInfo;
-import backend.applications.applicationOne.TestDataMetaAppOneTableEntity;
+import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 
 @Entity
 @Table(name="TEST_TABLE_INFO")
@@ -52,18 +52,14 @@ public class TestTablesInfo
 	@Column(name="DELETE_FLAG")
 	private String deleteFlag;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "testTableInfo", cascade = CascadeType.ALL)
-	private List<TestDataMetaAppOneTableEntity> testDataMeta =new ArrayList<TestDataMetaAppOneTableEntity>();
-
 	TestTablesInfo()
 	{
 		
 	}
 
 	public TestTablesInfo(long tableId, String tableName, TestApplicationsInfo testApplicationsInfo, String description,
-			String createdBy, Date createdDate, String updatedBy, Date updatedDate, String deleteFlag,
-			List<TestDataMetaAppOneTableEntity> testDataMeta)
+			String createdBy, Date createdDate, String updatedBy, Date updatedDate, String deleteFlag)
+			
 	{
 		super();
 		this.tableId = tableId;
@@ -75,7 +71,6 @@ public class TestTablesInfo
 		this.updatedBy = updatedBy;
 		this.updatedDate = updatedDate;
 		this.deleteFlag = deleteFlag;
-		this.testDataMeta = testDataMeta;
 	}
 
 	public long getTableId()
@@ -168,15 +163,7 @@ public class TestTablesInfo
 		this.deleteFlag = deleteFlag;
 	}
 
-	public List<TestDataMetaAppOneTableEntity> getTestDataMeta()
-	{
-		return testDataMeta;
-	}
-
-	public void setTestDataMeta(List<TestDataMetaAppOneTableEntity> testDataMeta)
-	{
-		this.testDataMeta = testDataMeta;
-	}
+	
 
 	@Override
 	public String toString()

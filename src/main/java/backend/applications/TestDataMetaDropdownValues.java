@@ -16,7 +16,7 @@ import javax.persistence.Id;
 public class TestDataMetaDropdownValues
 {
 	private List<Integer> testDataMetaId;
-	
+		
 	private List<String> testCaseId;
 	
 	private List<String> testShortDescription;
@@ -34,15 +34,14 @@ public class TestDataMetaDropdownValues
 	private List<String> createdBy;
 
 	private List<String> updatedBy;
-	
-	
-	public TestDataMetaDropdownValues(List<Integer> list, List<String> testCaseId,
+
+	public TestDataMetaDropdownValues(List<Integer> testDataMetaId, List<String> testCaseId,
 			List<String> testShortDescription, List<String> runFlag, List<String> testPriority,
 			List<String> testCategory, List<String> testScriptName, List<String> jiraId, List<String> createdBy,
 			List<String> updatedBy)
 	{
 		super();
-		this.testDataMetaId = list;
+		this.testDataMetaId = testDataMetaId;
 		this.testCaseId = testCaseId;
 		this.testShortDescription = testShortDescription;
 		this.runFlag = runFlag;
@@ -53,6 +52,7 @@ public class TestDataMetaDropdownValues
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
 	}
+
 
 	public List<Integer> getTestDataMetaId()
 	{
@@ -154,5 +154,14 @@ public class TestDataMetaDropdownValues
 		this.updatedBy = updatedBy;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "TestDataMetaDropdownValues [testDataMetaId=" + testDataMetaId + ", testCaseId=" + testCaseId + ", testShortDescription=" + testShortDescription + ", runFlag="
+				+ runFlag + ", testPriority=" + testPriority + ", testCategory=" + testCategory + ", testScriptName="
+				+ testScriptName + ", jiraId=" + jiraId + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
+	}
+	
+	
 	
 }

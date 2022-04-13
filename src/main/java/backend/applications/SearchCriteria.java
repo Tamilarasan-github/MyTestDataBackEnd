@@ -1,6 +1,8 @@
 package backend.applications;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class SearchCriteria
 {
@@ -25,7 +27,7 @@ public class SearchCriteria
 	private String text;
 	private long number;
 	private String stringList[];
-	private long numberList[];
+	private List<Integer> numberList;
 	private long numberFrom;
 	private long numberTo;
 	private Date dateFrom;
@@ -60,7 +62,7 @@ public class SearchCriteria
 		this.stringList = stringList;
 	}
 
-	public SearchCriteria(String key, SearchOperator operator, long[] numberList)
+	public SearchCriteria(String key, SearchOperator operator, List<Integer> numberList)
 	{
 		super();
 		this.key = key;
@@ -136,12 +138,12 @@ public class SearchCriteria
 		this.stringList = stringList;
 	}
 
-	public long[] getNumberList()
+	public List<Integer> getNumberList()
 	{
 		return numberList;
 	}
 
-	public void setNumberList(long[] numberList)
+	public void setNumberList(List<Integer> numberList)
 	{
 		this.numberList = numberList;
 	}
@@ -185,9 +187,15 @@ public class SearchCriteria
 	{
 		this.dateTo = dateTo;
 	}
-	
+
+	@Override
+	public String toString()
+	{
+		return "SearchCriteria [key=" + key + ", operator=" + operator + ", text=" + text + ", number=" + number
+				+ ", stringList=" + Arrays.toString(stringList) + ", numberList=" + numberList + ", numberFrom="
+				+ numberFrom + ", numberTo=" + numberTo + ", dateFrom=" + dateFrom + ", dateTo=" + dateTo + "]";
+	}
 	
 
-	
 	
 }

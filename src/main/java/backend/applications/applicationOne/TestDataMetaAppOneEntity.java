@@ -20,27 +20,20 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneTableEntity;
-import backend.applications.applicationOne.testdataInputTables.tableTwo.TestDataAppOneTableTwoTableEntity;
+import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneEntity;
+import backend.applications.applicationOne.testdataInputTables.tableTwo.TestDataAppOneTableTwoEntity;
 import backend.applications.tables.TestTablesInfo;
 
 @Component
 @Entity
-@Table(name="TEST_DATA_META")
-public class TestDataMetaAppOneTableEntity
+@Table(name="TEST_DATA_META_APP_ONE")
+public class TestDataMetaAppOneEntity
 {
 	@Id
 	@Column(name="TEST_DATA_META_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long testDataMetaId;
-	
-	@ManyToOne
-	@JoinColumn(name = "TEST_TABLE_ID", referencedColumnName = "ID", insertable=false, updatable = false)
-	private TestTablesInfo testTableInfo;
-	
-	@Column(name = "TEST_TABLE_ID")
-	private long testTableId;
-	
+	private Integer testDataMetaId;
+		
 	@Column(name="TEST_CASE_ID")
 	private String testCaseId;
 	
@@ -83,32 +76,40 @@ public class TestDataMetaAppOneTableEntity
 	@Column(name="DELETE_FLAG")
 	private String deleteFlag;
 	
+	@Column(name = "TEST_TABLE_ONE")
+	private Integer testTableOne;
+	
+	@Column(name = "TEST_TABLE_TWO")
+	private Integer testTableTwo;
+	
+	@Column(name = "TEST_TABLE_THREE")
+	private Integer testTableThree;
+	
 
 	@OneToMany(mappedBy = "testDataMeta",
 	            cascade = CascadeType.ALL,
 	            orphanRemoval = true)
-	private List<TestDataAppOneTableOneTableEntity> testDataApp = new ArrayList<TestDataAppOneTableOneTableEntity>();
+	private List<TestDataAppOneTableOneEntity> testDataAppOneTableOne = new ArrayList<TestDataAppOneTableOneEntity>();
 	
 	@OneToMany(mappedBy = "testDataMeta",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-	private List<TestDataAppOneTableTwoTableEntity> testDataAppTableTwo = new ArrayList<TestDataAppOneTableTwoTableEntity>();
+	private List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwo = new ArrayList<TestDataAppOneTableTwoEntity>();
 	
-	protected TestDataMetaAppOneTableEntity()
+	protected TestDataMetaAppOneEntity()
 	{
 		
 	}
 
-	public TestDataMetaAppOneTableEntity(long testDataMetaId, TestTablesInfo testTableInfo, long testTableId, String testCaseId,
-			String testShortDescription, String testScenario, String runFlag, String testPriority, String testCategory,
-			String testScriptName, String jiraId, String testExecutionTime, String createdBy, Date createdDate,
-			String updatedBy, Date updatedDate, String deleteFlag, List<TestDataAppOneTableOneTableEntity> testDataApp,
-			List<TestDataAppOneTableTwoTableEntity> testDataAppTableTwo)
+	public TestDataMetaAppOneEntity(Integer testDataMetaId, String testCaseId, String testShortDescription,
+			String testScenario, String runFlag, String testPriority, String testCategory, String testScriptName,
+			String jiraId, String testExecutionTime, String createdBy, Date createdDate, String updatedBy,
+			Date updatedDate, String deleteFlag, Integer testTableOne, Integer testTableTwo, Integer testTableThree,
+			List<TestDataAppOneTableOneEntity> testDataAppOneTableOne,
+			List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwo)
 	{
 		super();
 		this.testDataMetaId = testDataMetaId;
-		this.testTableInfo = testTableInfo;
-		this.testTableId = testTableId;
 		this.testCaseId = testCaseId;
 		this.testShortDescription = testShortDescription;
 		this.testScenario = testScenario;
@@ -123,38 +124,21 @@ public class TestDataMetaAppOneTableEntity
 		this.updatedBy = updatedBy;
 		this.updatedDate = updatedDate;
 		this.deleteFlag = deleteFlag;
-		this.testDataApp = testDataApp;
-		this.testDataAppTableTwo = testDataAppTableTwo;
+		this.testTableOne = testTableOne;
+		this.testTableTwo = testTableTwo;
+		this.testTableThree =  testTableThree;
+		this.testDataAppOneTableOne = testDataAppOneTableOne;
+		this.testDataAppOneTableTwo = testDataAppOneTableTwo;
 	}
 
-	public long getTestDataMetaId()
+	public Integer getTestDataMetaId()
 	{
 		return testDataMetaId;
 	}
 
-	public void setTestDataMetaId(long testDataMetaId)
+	public void setTestDataMetaId(Integer testDataMetaId)
 	{
 		this.testDataMetaId = testDataMetaId;
-	}
-
-	public TestTablesInfo getTestTableInfo()
-	{
-		return testTableInfo;
-	}
-
-	public void setTestTableInfo(TestTablesInfo testTableInfo)
-	{
-		this.testTableInfo = testTableInfo;
-	}
-
-	public long getTestTableId()
-	{
-		return testTableId;
-	}
-
-	public void setTestTableId(long testTableId)
-	{
-		this.testTableId = testTableId;
 	}
 
 	public String getTestCaseId()
@@ -297,38 +281,68 @@ public class TestDataMetaAppOneTableEntity
 		this.deleteFlag = deleteFlag;
 	}
 
-	public List<TestDataAppOneTableOneTableEntity> getTestDataApp()
+	public Integer getTestTableOne()
 	{
-		return testDataApp;
+		return testTableOne;
 	}
 
-	public void setTestDataApp(List<TestDataAppOneTableOneTableEntity> testDataApp)
+	public void setTestTableOne(Integer testTableOne)
 	{
-		this.testDataApp = testDataApp;
+		this.testTableOne = testTableOne;
 	}
 
-	public List<TestDataAppOneTableTwoTableEntity> getTestDataAppTableTwo()
+	public Integer getTestTableTwo()
 	{
-		return testDataAppTableTwo;
+		return testTableTwo;
 	}
 
-	public void setTestDataAppTableTwo(List<TestDataAppOneTableTwoTableEntity> testDataAppTableTwo)
+	public void setTestTableTwo(Integer testTableTwo)
 	{
-		this.testDataAppTableTwo = testDataAppTableTwo;
+		this.testTableTwo = testTableTwo;
+	}
+
+	public Integer getTestTableThree()
+	{
+		return testTableThree;
+	}
+
+	public void setTestTableThree(Integer testTableThree)
+	{
+		this.testTableThree = testTableThree;
+	}
+
+	public List<TestDataAppOneTableOneEntity> getTestDataAppOneTableOne()
+	{
+		return testDataAppOneTableOne;
+	}
+
+	public void setTestDataAppOneTableOne(List<TestDataAppOneTableOneEntity> testDataAppOneTableOne)
+	{
+		this.testDataAppOneTableOne = testDataAppOneTableOne;
+	}
+
+	public List<TestDataAppOneTableTwoEntity> getTestDataAppOneTableTwo()
+	{
+		return testDataAppOneTableTwo;
+	}
+
+	public void setTestDataAppOneTableTwo(List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwo)
+	{
+		this.testDataAppOneTableTwo = testDataAppOneTableTwo;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "TestDataMeta [testDataMetaId=" + testDataMetaId + ", testTableInfo=" + testTableInfo + ", testTableId="
-				+ testTableId + ", testCaseId=" + testCaseId + ", testShortDescription=" + testShortDescription
-				+ ", testScenario=" + testScenario + ", runFlag=" + runFlag + ", testPriority=" + testPriority
-				+ ", testCategory=" + testCategory + ", testScriptName=" + testScriptName + ", jiraId=" + jiraId
-				+ ", testExecutionTime=" + testExecutionTime + ", createdBy=" + createdBy + ", createdDate="
-				+ createdDate + ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + ", deleteFlag="
-				+ deleteFlag + ", testDataApp=" + testDataApp + ", testDataAppTableTwo=" + testDataAppTableTwo + "]";
+		return "TestDataMetaAppOneTableEntity [testDataMetaId=" + testDataMetaId + ", testCaseId=" + testCaseId
+				+ ", testShortDescription=" + testShortDescription + ", testScenario=" + testScenario + ", runFlag="
+				+ runFlag + ", testPriority=" + testPriority + ", testCategory=" + testCategory + ", testScriptName="
+				+ testScriptName + ", jiraId=" + jiraId + ", testExecutionTime=" + testExecutionTime + ", createdBy="
+				+ createdBy + ", createdDate=" + createdDate + ", updatedBy=" + updatedBy + ", updatedDate="
+				+ updatedDate + ", deleteFlag=" + deleteFlag + ", testTableOne=" + testTableOne + ", testTableTwo="
+				+ testTableTwo + ", testTableThree=" + testTableThree + ", testDataAppOneTableOne="
+				+ testDataAppOneTableOne + ", testDataAppOneTableTwo=" + testDataAppOneTableTwo + "]";
 	}
-	
-	
 
+	
 }

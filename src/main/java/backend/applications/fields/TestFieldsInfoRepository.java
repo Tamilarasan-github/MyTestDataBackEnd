@@ -12,6 +12,6 @@ public interface TestFieldsInfoRepository extends JpaRepository<TestFieldsInfoEn
 	@Query(value = "SELECT * FROM TEST_FIELDS_INFO t ORDER BY FIELD_ORDER", nativeQuery = true)
 	Optional<List<TestFieldsInfoEntity>> findAllOrderByFieldOrder();
 	
-	@Query(value = "SELECT * FROM TEST_FIELDS_INFO t WHERE t.TABLE_NAME=:tableName ORDER BY FIELD_ORDER", nativeQuery = true)
-	Optional<List<TestFieldsInfoEntity>> findAllByTableNameOrderByFieldOrder(String tableName);
+	@Query(value = "SELECT * FROM TEST_FIELDS_INFO t WHERE t.TABLE_ID=:tableId AND FIELD_ORDER>0 ORDER BY FIELD_ORDER", nativeQuery = true)
+	Optional<List<TestFieldsInfoEntity>> findAllByTableNameOrderByFieldOrder(long tableId);
 }

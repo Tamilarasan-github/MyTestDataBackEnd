@@ -28,7 +28,7 @@ import backend.applications.tables.TestTablesInfoRepository;
 public class TestDataMetaAppOneController
 {
 	@Autowired
-	TestDataMetaAppOneTableEntity testDataMeta;
+	TestDataMetaAppOneEntity testDataMeta;
 	
 	@Autowired
 	TestDataMetaAppOneRepository testDataMetaRepository;

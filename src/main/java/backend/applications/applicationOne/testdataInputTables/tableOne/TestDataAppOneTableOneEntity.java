@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import backend.applications.applicationOne.TestDataMetaAppOneTableEntity;
+import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 
 
 @Component
 @Entity
-@Table(name="TEST_DATA_APP")
-public class TestDataAppOneTableOneTableEntity
+@Table(name="TEST_DATA_APP_TABLE_ONE")
+public class TestDataAppOneTableOneEntity
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -51,17 +51,17 @@ public class TestDataAppOneTableOneTableEntity
 	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "TEST_DATA_APP_META_ID")
-	private TestDataMetaAppOneTableEntity testDataMeta;
+	private TestDataMetaAppOneEntity testDataMeta;
 	
-	public TestDataAppOneTableOneTableEntity()
+	public TestDataAppOneTableOneEntity()
 	{
 		
 	}
 	
 	
 
-	public TestDataAppOneTableOneTableEntity(int testDataId, String testRowDetail, String deleteFlag, String column1, String column2,
-			String column3, String column4, String column5, TestDataMetaAppOneTableEntity testDataMeta)
+	public TestDataAppOneTableOneEntity(int testDataId, String testRowDetail, String deleteFlag, String column1, String column2,
+			String column3, String column4, String column5, TestDataMetaAppOneEntity testDataMeta)
 	{
 		super();
 		this.testDataId = testDataId;
@@ -158,12 +158,12 @@ public class TestDataAppOneTableOneTableEntity
 		this.column5 = column5;
 	}
 
-	public TestDataMetaAppOneTableEntity getTestDataMeta()
+	public TestDataMetaAppOneEntity getTestDataMeta()
 	{
 		return testDataMeta;
 	}
 
-	public void setTestDataMeta(TestDataMetaAppOneTableEntity testDataMeta)
+	public void setTestDataMeta(TestDataMetaAppOneEntity testDataMeta)
 	{
 		this.testDataMeta = testDataMeta;
 	}
@@ -171,7 +171,7 @@ public class TestDataAppOneTableOneTableEntity
 	@Override
 	public String toString()
 	{
-		return "TestDataApp [testDataId=" + testDataId + ", testRowDetail=" + testRowDetail + ", deleteFlag="
+		return "TestDataAppOneTableOne [testDataId=" + testDataId + ", testRowDetail=" + testRowDetail + ", deleteFlag="
 				+ deleteFlag + ", column1=" + column1 + ", column2=" + column2 + ", column3=" + column3 + ", column4="
 				+ column4 + ", column5=" + column5 + "]";
 	}

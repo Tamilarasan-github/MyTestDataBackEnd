@@ -29,6 +29,7 @@ public class TestTableInfoController
 	@GetMapping("/applications")
 	public List<TestApplicationsInfo> getApplicationsList()
 	{
+		System.out.println("New Application List Request.");
 		Optional<List<TestApplicationsInfo>> applicationListOptional=  testApplicationsInfoRepository.findByDeleteFlag("N");
 		System.out.println("applicationList:" +applicationListOptional);
 		

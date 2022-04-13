@@ -16,9 +16,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import backend.applications.SearchCriteria;
 import backend.applications.SearchCriteria.SearchOperator;
-import backend.applications.applicationOne.TestDataMetaAppOneTableEntity;
+import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 
-public class TestDataAppOneTableTwoSpecifications implements Specification<TestDataAppOneTableTwoTableEntity>
+public class TestDataAppOneTableTwoSpecifications implements Specification<TestDataAppOneTableTwoEntity>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class TestDataAppOneTableTwoSpecifications implements Specification<TestD
 	}
 	
 	@Override
-	public Predicate toPredicate(Root<TestDataAppOneTableTwoTableEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)
+	public Predicate toPredicate(Root<TestDataAppOneTableTwoEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)
 	{
 		List<Predicate> predicatesList = new ArrayList<Predicate>();
 		

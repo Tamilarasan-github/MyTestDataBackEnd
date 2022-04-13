@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import backend.applications.applicationOne.TestDataMetaAppOneTableEntity;
+import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 
 
 @Component
 @Entity
 @Table(name="TEST_DATA_APP_TABLE_TWO")
-public class TestDataAppOneTableTwoTableEntity
+public class TestDataAppOneTableTwoEntity
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -35,7 +35,7 @@ public class TestDataAppOneTableTwoTableEntity
 	private String deleteFlag;
 	
 	@Column(name="COLUMN_A")
-	private String column1;
+	private String columnA;
 	
 	@Column(name="COLUMN_B")
 	private String columnB;
@@ -52,21 +52,21 @@ public class TestDataAppOneTableTwoTableEntity
 	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "TEST_DATA_META_ID")
-	private TestDataMetaAppOneTableEntity testDataMeta;
+	private TestDataMetaAppOneEntity testDataMeta;
 	
-	protected TestDataAppOneTableTwoTableEntity()
+	protected TestDataAppOneTableTwoEntity()
 	{
 		
 	}
 
-	public TestDataAppOneTableTwoTableEntity(int testDataId, String testRowDetail, String deleteFlag, String column1, String columnB,
-			String columnC, String columnD, String columnE, TestDataMetaAppOneTableEntity testDataMeta)
+	public TestDataAppOneTableTwoEntity(int testDataId, String testRowDetail, String deleteFlag, String columnA, String columnB,
+			String columnC, String columnD, String columnE, TestDataMetaAppOneEntity testDataMeta)
 	{
 		super();
 		this.testDataId = testDataId;
 		this.testRowDetail = testRowDetail;
 		this.deleteFlag = deleteFlag;
-		this.column1 = column1;
+		this.columnA = columnA;
 		this.columnB = columnB;
 		this.columnC = columnC;
 		this.columnD = columnD;
@@ -104,14 +104,14 @@ public class TestDataAppOneTableTwoTableEntity
 		this.deleteFlag = deleteFlag;
 	}
 
-	public String getColumn1()
+	public String getColumnA()
 	{
-		return column1;
+		return columnA;
 	}
 
-	public void setColumn1(String column1)
+	public void setColumnA(String columnA)
 	{
-		this.column1 = column1;
+		this.columnA = columnA;
 	}
 
 	public String getColumnB()
@@ -154,12 +154,12 @@ public class TestDataAppOneTableTwoTableEntity
 		this.columnE = columnE;
 	}
 
-	public TestDataMetaAppOneTableEntity getTestDataMeta()
+	public TestDataMetaAppOneEntity getTestDataMeta()
 	{
 		return testDataMeta;
 	}
 
-	public void setTestDataMeta(TestDataMetaAppOneTableEntity testDataMeta)
+	public void setTestDataMeta(TestDataMetaAppOneEntity testDataMeta)
 	{
 		this.testDataMeta = testDataMeta;
 	}
@@ -168,7 +168,7 @@ public class TestDataAppOneTableTwoTableEntity
 	public String toString()
 	{
 		return "TestDataAppTableTwo [testDataId=" + testDataId + ", testRowDetail=" + testRowDetail + ", deleteFlag="
-				+ deleteFlag + ", column1=" + column1 + ", columnB=" + columnB + ", columnC=" + columnC + ", columnD="
+				+ deleteFlag + ", columnA=" + columnA + ", columnB=" + columnB + ", columnC=" + columnC + ", columnD="
 				+ columnD + ", columnE=" + columnE + "]";
 	}
 	

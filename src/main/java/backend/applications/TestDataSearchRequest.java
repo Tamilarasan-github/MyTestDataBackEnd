@@ -1,18 +1,23 @@
 package backend.applications;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Component
 public class TestDataSearchRequest
 {
-	private long testDataMetaId[];
-	private long testTableId;
-	private String testcaseId[];
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+	private List<Integer> testDataMetaId;
+	private List<Integer> testTables[];
+	private String testCaseId[];
 	private String jiraId[];
 	private String runFlag[];
 	private String testScriptName[];
@@ -31,34 +36,35 @@ public class TestDataSearchRequest
 		
 	}
 
-	public long[] getTestDataMetaId()
+	public List<Integer> getTestDataMetaId()
 	{
 		return testDataMetaId;
 	}
 
-	public void setTestDataMetaId(long[] testDataMetaId)
+	public void setTestDataMetaId(List<Integer> testDataMetaId)
 	{
 		this.testDataMetaId = testDataMetaId;
 	}
-
-	public long getTestTableId()
+	
+	
+	public List<Integer>[] getTestTables()
 	{
-		return testTableId;
+		return testTables;
 	}
 
-	public void setTestTableId(long testTableId)
+	public void setTestTables(List<Integer>[] testTables)
 	{
-		this.testTableId = testTableId;
+		this.testTables = testTables;
 	}
 
-	public String[] getTestcaseId()
+	public String[] getTestCaseId()
 	{
-		return testcaseId;
+		return testCaseId;
 	}
 
-	public void setTestcaseId(String[] testcaseId)
+	public void setTestCaseId(String[] testCaseId)
 	{
-		this.testcaseId = testcaseId;
+		this.testCaseId = testCaseId;
 	}
 
 	public String[] getJiraId()
@@ -181,6 +187,18 @@ public class TestDataSearchRequest
 		this.updatedTo = updatedTo;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "TestDataSearchRequest [testDataMetaId=" + testDataMetaId + ", testTables=" + Arrays.toString(testTables)
+				+ ", testCaseId=" + Arrays.toString(testCaseId) + ", jiraId=" + Arrays.toString(jiraId) + ", runFlag="
+				+ Arrays.toString(runFlag) + ", testScriptName=" + Arrays.toString(testScriptName)
+				+ ", testShortDescription=" + Arrays.toString(testShortDescription) + ", testCategory="
+				+ Arrays.toString(testCategory) + ", testPriority=" + Arrays.toString(testPriority) + ", createdBy="
+				+ Arrays.toString(createdBy) + ", createdFrom=" + createdFrom + ", createdTo=" + createdTo
+				+ ", updatedBy=" + Arrays.toString(updatedBy) + ", updatedFrom=" + updatedFrom + ", updatedTo="
+				+ updatedTo + "]";
+	}
 	
 	
 }

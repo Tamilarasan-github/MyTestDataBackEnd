@@ -20,7 +20,7 @@ import backend.applications.SearchCriteria.SearchOperator;
 import backend.applications.applicationOne.TestDataMetaAppOneDaoService;
 import backend.applications.applicationOne.TestDataMetaAppOneRepository;
 import backend.applications.applicationOne.TestDataMetaAppOneSpecifications;
-import backend.applications.applicationOne.TestDataMetaAppOneTableEntity;
+import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneRepository;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -31,7 +31,7 @@ public class TestDataAppOneTableTwoController
 	final long tableId=2002;
 	
 	@Autowired
-	TestDataMetaAppOneTableEntity testDataMeta;
+	TestDataMetaAppOneEntity testDataMeta;
 	
 	@Autowired
 	TestDataMetaAppOneRepository testDataMetaRepository;
@@ -46,39 +46,34 @@ public class TestDataAppOneTableTwoController
 	public TestDataMetaDropdownValues getTestDataMetaDropdownValues()
 	{
 		return new TestDataMetaDropdownValues (
-				testDataDaoService.convertStringListToIntegerList(testDataMetaRepository.findAllDistinctOfTestDataMetaId(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfTestCaseId(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfTestShortDescription(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfRunFlag(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfTestPriority(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfTestCategory(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfTestScriptName(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfJiraId(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfCreatedBy(tableId)),
-				testDataDaoService.replaceNullToNullOrEmptyString(testDataMetaRepository.findAllDistinctOfUpdatedBy(tableId))
+				testDataDaoService.convertStringListToIntegerList(testDataMetaRepository.findAllDistinctTestDataMetaIdByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestCaseIdByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestShortDescriptionByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctRunFlagByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestPriorityByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestCategoryByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestScriptNameByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctJiraIdByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctCreatedByByTestTableTwo(tableId)),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctUpdatedByByTestTableTwo(tableId))
 				);
 			
 	}
 	
-	@GetMapping("/headers")
-	public TestDataMetaAppOneTableEntity getRandomFirstRecord()
-	{
-		System.out.println(tableId+" is requested");
-		return testDataMetaRepository.getRandomFirstRecord(tableId);
-	}
+	
 	
 	@PostMapping("/search")
-	public List<TestDataMetaAppOneTableEntity> getTestData(@RequestBody TestDataSearchRequest testDataSearchRequest)
+	public List<TestDataMetaAppOneEntity> getTestData(@RequestBody TestDataSearchRequest testDataSearchRequest)
 	{
 		System.out.println("TABLE ID: "+tableId+" - "+testDataSearchRequest);
 	
 		
 		TestDataMetaAppOneSpecifications testDataMetaSpecs=new TestDataMetaAppOneSpecifications();
 		
-		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testTableId",SearchOperator.IN,tableId));
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testTableTwo",SearchOperator.IN,2002));
 
 		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testDataMetaId",SearchOperator.IN, testDataSearchRequest.getTestDataMetaId()));
-		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testCaseId",SearchOperator.IN ,testDataSearchRequest.getTestcaseId()));
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testCaseId",SearchOperator.IN ,testDataSearchRequest.getTestCaseId()));
 		
 		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("jiraId",SearchOperator.IN,testDataSearchRequest.getJiraId()));
 		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("runFlag",SearchOperator.IN,testDataSearchRequest.getRunFlag()));
@@ -100,31 +95,31 @@ public class TestDataAppOneTableTwoController
 	
 	
 	@PostMapping("/clone")
-	public List<TestDataMetaAppOneTableEntity> cloneTestData(@RequestBody TestDataMetaAppOneTableEntity[] testDataMeta)
+	public List<TestDataMetaAppOneEntity> cloneTestData(@RequestBody TestDataMetaAppOneEntity[] testDataMeta)
 	{
-		return testDataDaoService.cloneTestDataMeta(testDataMeta);
+		return testDataDaoService.cloneTestDataMeta(2002, testDataMeta);
 	}
 	
 	@PostMapping("/create")
-	public TestDataMetaAppOneTableEntity createTestData(@RequestBody TestDataMetaAppOneTableEntity testDataMeta)
+	public TestDataMetaAppOneEntity createTestData(@RequestBody TestDataMetaAppOneEntity testDataMeta)
 	{
 		return testDataDaoService.createTestDataMeta(testDataMeta);
 	}
 	
 	@PutMapping("/update")
-	public void updateTestData(@RequestBody TestDataMetaAppOneTableEntity testDataMeta)
+	public void updateTestData(@RequestBody TestDataMetaAppOneEntity testDataMeta)
 	{
 		
 	}
 	
 	@PutMapping("/bulkupdate")
-	public void bulkUpdateTestData(@RequestBody TestDataMetaAppOneTableEntity testDataMeta)
+	public void bulkUpdateTestData(@RequestBody TestDataMetaAppOneEntity testDataMeta)
 	{
 		
 	}
 	
 	@DeleteMapping("/delete")
-	public void deleteTestData(@RequestBody TestDataMetaAppOneTableEntity testDataMeta)
+	public void deleteTestData(@RequestBody TestDataMetaAppOneEntity testDataMeta)
 	{
 		
 	}
