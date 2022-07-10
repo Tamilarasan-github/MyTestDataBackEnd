@@ -27,6 +27,8 @@ import backend.applications.tables.TestTablesInfoRepository;
 @RequestMapping("/applications/1001")
 public class TestDataMetaAppOneController
 {
+	final long tableId=2000;
+	
 	@Autowired
 	TestDataMetaAppOneEntity testDataMeta;
 	
@@ -52,5 +54,66 @@ public class TestDataMetaAppOneController
 		System.out.println("tablesList of 1001:" +tablesList);
 		
 		return tablesList;
+	}
+	
+	@GetMapping("/tables/2000/dropdownvalues")
+	public TestDataMetaDropdownValues getTestDataMetaDropdownValues()
+	{
+		TestDataMetaDropdownValues testDataMetaDropdownValues = new TestDataMetaDropdownValues (
+				testDataDaoService.convertStringListToIntegerList(testDataMetaRepository.findAllDistinctTestDataMetaId()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestCaseId()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestShortDescription()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctRunFlag()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestPriority()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestCategory()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestScriptName()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctJiraId()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctCreatedBy()),
+				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctUpdatedBy())
+				);
+		System.out.println("Dropdown values:"+testDataMetaDropdownValues);
+		return testDataMetaDropdownValues;
+			
+	}
+	
+	@PostMapping("/tables/2000/search")
+	public List<TestDataMetaAppOneEntity> getTestData(@RequestBody TestDataSearchRequest testDataSearchRequest)
+	{
+	
+		System.out.println("TABLE ID: "+tableId+" - "+testDataSearchRequest.toString());
+		
+		for (long testDataMetaId: testDataSearchRequest.getTestDataMetaId())
+		{
+			System.out.println("Requested Test Data Meta ID:"+testDataMetaId);
+		}
+		
+		
+		TestDataMetaAppOneSpecifications testDataMetaSpecs=new TestDataMetaAppOneSpecifications();
+		
+		
+		//testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testTableOne",SearchOperator.IN,2001));
+
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testDataMetaId",SearchOperator.IN, testDataSearchRequest.getTestDataMetaId()));
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testCaseId",SearchOperator.IN ,testDataSearchRequest.getTestCaseId()));
+		
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("jiraId",SearchOperator.IN,testDataSearchRequest.getJiraId()));
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("runFlag",SearchOperator.IN,testDataSearchRequest.getRunFlag()));
+		
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testScriptName",SearchOperator.IN,testDataSearchRequest.getTestScriptName()));
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testShortDescription",SearchOperator.IN,testDataSearchRequest.getTestShortDescription()));
+		
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testPriority",SearchOperator.IN,testDataSearchRequest.getTestPriority())); 
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("testCategory",SearchOperator.IN,testDataSearchRequest.getTestCategory())); 	
+		
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("createdBy",SearchOperator.IN,testDataSearchRequest.getCreatedBy()));
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("createdDate",SearchOperator.IN,testDataSearchRequest.getCreatedFrom(),testDataSearchRequest.getCreatedTo()));
+		
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("updatedBy",SearchOperator.IN,testDataSearchRequest.getUpdatedBy()));
+		testDataMetaSpecs.addNewSearchCriteria(new SearchCriteria("updatedDate",SearchOperator.IN,testDataSearchRequest.getUpdatedFrom(),testDataSearchRequest.getUpdatedTo()));
+
+		List<TestDataMetaAppOneEntity> filteredTestDataMeta=testDataMetaRepository.findAll(testDataMetaSpecs);
+		System.out.println("Filtered record:"+filteredTestDataMeta.toString());
+		
+		return filteredTestDataMeta;
 	}
 }

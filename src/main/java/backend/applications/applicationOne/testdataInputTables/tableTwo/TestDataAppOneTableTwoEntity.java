@@ -51,10 +51,10 @@ public class TestDataAppOneTableTwoEntity
 	
 	@JsonIgnore
 	@ManyToOne
-    @JoinColumn(name = "TEST_DATA_META_ID")
+    @JoinColumn(name = "TEST_DATA_APP_META_ID")
 	private TestDataMetaAppOneEntity testDataMeta;
 	
-	protected TestDataAppOneTableTwoEntity()
+	public TestDataAppOneTableTwoEntity()
 	{
 		
 	}

@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -31,7 +31,8 @@ public class TestDataMetaAppOneEntity
 {
 	@Id
 	@Column(name="TEST_DATA_META_ID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "TEST_DATA_META_ID", sequenceName = "TEST_DATA_META_ID_SEQ", schema="tamil", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_META_ID")
 	private Integer testDataMetaId;
 		
 	@Column(name="TEST_CASE_ID")
@@ -96,7 +97,7 @@ public class TestDataMetaAppOneEntity
             orphanRemoval = true)
 	private List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwo = new ArrayList<TestDataAppOneTableTwoEntity>();
 	
-	protected TestDataMetaAppOneEntity()
+	public TestDataMetaAppOneEntity()
 	{
 		
 	}
@@ -326,9 +327,9 @@ public class TestDataMetaAppOneEntity
 		return testDataAppOneTableTwo;
 	}
 
-	public void setTestDataAppOneTableTwo(List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwo)
+	public void setTestDataAppOneTableTwo(List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwoEntityList)
 	{
-		this.testDataAppOneTableTwo = testDataAppOneTableTwo;
+		this.testDataAppOneTableTwo = testDataAppOneTableTwoEntityList;
 	}
 
 	@Override

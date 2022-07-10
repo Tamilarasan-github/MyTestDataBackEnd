@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -23,7 +24,8 @@ import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 public class TestDataAppOneTableOneEntity
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "TEST_DATA_ID", sequenceName = "TEST_DATA_ID_TABLE_ONE_SEQ", schema="tamil", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_ID")
 	@Column(name="TEST_DATA_ID")
 	private int testDataId;
 		
