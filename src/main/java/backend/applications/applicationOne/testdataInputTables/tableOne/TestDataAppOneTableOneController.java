@@ -48,7 +48,7 @@ public class TestDataAppOneTableOneController
 	@GetMapping("/dropdownvalues")
 	public TestDataMetaDropdownValues getTestDataMetaDropdownValues()
 	{
-		return new TestDataMetaDropdownValues (
+		TestDataMetaDropdownValues testDataMetaDropdownValues=  new TestDataMetaDropdownValues (
 				testDataDaoService.convertStringListToIntegerList(testDataMetaRepository.findAllDistinctTestDataMetaIdByTestTableOne(tableId)),
 				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestCaseIdByTestTableOne(tableId)),
 				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctTestShortDescriptionByTestTableOne(tableId)),
@@ -60,6 +60,8 @@ public class TestDataAppOneTableOneController
 				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctCreatedByByTestTableOne(tableId)),
 				testDataDaoService.replaceNullWithNullOrEmptyString(testDataMetaRepository.findAllDistinctUpdatedByByTestTableOne(tableId))
 				);
+		System.out.println("Dropdown values:"+testDataMetaDropdownValues);
+		return testDataMetaDropdownValues;
 			
 	}
 	

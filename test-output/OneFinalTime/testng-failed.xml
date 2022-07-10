@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [OneFinalTime]">
+  <test thread-count="5" name="OneFinalTime(failed)">
+    <classes>
+      <class name="testScripts.TestScript_T0001">
+        <methods>
+          <include name="beforeTest"/>
+          <include name="afterMethod"/>
+          <include name="openGoogle"/>
+          <include name="beforeSuite"/>
+          <include name="afterTest"/>
+          <include name="setValues"/>
+          <include name="afterClass"/>
+          <include name="beforeMethod"/>
+          <include name="beforeClass"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> <!-- testScripts.TestScript_T0001 -->
+    </classes>
+  </test> <!-- OneFinalTime(failed) -->
+</suite> <!-- Failed suite [OneFinalTime] -->

@@ -16,7 +16,7 @@ public class TestDataSearchRequest
 {
 	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
 	private List<Integer> testDataMetaId;
-	private List<Integer> testTables[];
+	
 	private String testCaseId[];
 	private String jiraId[];
 	private String runFlag[];
@@ -47,16 +47,6 @@ public class TestDataSearchRequest
 	}
 	
 	
-	public List<Integer>[] getTestTables()
-	{
-		return testTables;
-	}
-
-	public void setTestTables(List<Integer>[] testTables)
-	{
-		this.testTables = testTables;
-	}
-
 	public String[] getTestCaseId()
 	{
 		return testCaseId;
@@ -190,8 +180,7 @@ public class TestDataSearchRequest
 	@Override
 	public String toString()
 	{
-		return "TestDataSearchRequest [testDataMetaId=" + testDataMetaId + ", testTables=" + Arrays.toString(testTables)
-				+ ", testCaseId=" + Arrays.toString(testCaseId) + ", jiraId=" + Arrays.toString(jiraId) + ", runFlag="
+		return "TestDataSearchRequest [testDataMetaId=" + testDataMetaId + ", testCaseId=" + Arrays.toString(testCaseId) + ", jiraId=" + Arrays.toString(jiraId) + ", runFlag="
 				+ Arrays.toString(runFlag) + ", testScriptName=" + Arrays.toString(testScriptName)
 				+ ", testShortDescription=" + Arrays.toString(testShortDescription) + ", testCategory="
 				+ Arrays.toString(testCategory) + ", testPriority=" + Arrays.toString(testPriority) + ", createdBy="
