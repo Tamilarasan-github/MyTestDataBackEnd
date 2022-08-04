@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.myBackEnd</groupId>
 	<artifactId>MyTestAutomation</artifactId>
-	<version>0.0.2</version>
+	<version>1.0.0</version>
 	<name>MyTestAutomation</name>
 	<description>Test automation services to store data to db using java Spring Boot</description>
 	<properties>
@@ -42,11 +42,25 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		
+
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc10</artifactId>
 			<version>19.13.0.0.1</version>
+		</dependency>
+
+		<!--This is when mySQL db is used -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
 

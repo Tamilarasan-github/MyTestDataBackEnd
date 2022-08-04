@@ -36,6 +36,7 @@ public class Helper extends SuperHelper{
 
 	public String description;
 	public String testcaseName;
+	public String suiteId;
 	public String suiteName;
 	public String url;
 	public String userName;
@@ -43,12 +44,13 @@ public class Helper extends SuperHelper{
 	
 		
 	@BeforeSuite
-	@Parameters ({"suiteName", "url","userName","password"})
-	public void beforeSuite(@Optional("DirectExecution") String suiteName, @Optional("")String url, @Optional("")String userName, @Optional("")String password)
+	@Parameters ({"suiteId", "suiteName", "url","userName","password"})
+	public void beforeSuite(@Optional("") String suiteId, @Optional("DirectExecution") String suiteName, @Optional("")String url, @Optional("")String userName, @Optional("")String password)
 	{
 		System.out.println("@BeforeSuite");
 		loadProperties();
 		
+		this.suiteId=suiteId;
 		this.suiteName=suiteName;
 		this.url=url;
 		this.userName=userName;
@@ -71,7 +73,8 @@ public class Helper extends SuperHelper{
 		
 		System.out.println("URL: "+this.url);
 		
-		startExtentReport();
+		System.out.println("suiteId sent to report:"+suiteId);
+		startExtentReport(suiteId);
 		
 	}
 	
@@ -129,7 +132,7 @@ public class Helper extends SuperHelper{
 		
 		try{  
 			Class.forName("oracle.jdbc.driver.OracleDriver");  
-			Connection con=DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1522/ORCLPDB1.localdomain","tamil","tamilarasan");  
+			Connection con=DriverManager.getConnection(configProp.getProperty("oracle_db_url"),configProp.getProperty("oracle_db_username"),configProp.getProperty("oracle_db_password"));  
 			Statement stmt=con.createStatement();  
 			ResultSet rs=stmt.executeQuery("SELECT * FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.RUN_FLAG='Y' AND t.DELETE_FLAG='N'");  
 			

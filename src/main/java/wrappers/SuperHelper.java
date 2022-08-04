@@ -102,19 +102,7 @@ public class SuperHelper extends Reporter implements CoreSuperHelper
 		{
 			if(browserName.equalsIgnoreCase("chrome"))
 			{
-				URL resource = getClass().getClassLoader().getResource("drivers/chromedriver.exe");
-				System.out.println("Driver Path:"+resource.toString());
-				File file = null;
-				try
-				{
-					file = Paths.get(resource.toURI()).toFile();
-				} catch (URISyntaxException e)
-				{
-					e.printStackTrace();
-				}
-				String absolutePath = file.getPath();
-				
-				 System.setProperty("webdriver.chrome.driver", absolutePath);
+				System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
 				
 				ChromeOptions chromeOptions = new ChromeOptions();
 				

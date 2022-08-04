@@ -25,6 +25,19 @@ public class TestTableInfoController
 	@Autowired
 	TestTablesInfoRepository testTablesInfoRepository;
 	
+	@GetMapping("/test")
+	public String test()
+	{
+		return "Hey Tamil!! Congrats its workinggggg!!!";
+		
+	}
+	
+	@GetMapping("/thankyou")
+	public String thankyou()
+	{
+		return "Hello All!! Thank you!!!";
+		
+	}
 	
 	@GetMapping("/applications")
 	public List<TestApplicationsInfo> getApplicationsList()
@@ -36,16 +49,7 @@ public class TestTableInfoController
 		List<TestApplicationsInfo> applicationList= applicationListOptional.get();
 		return applicationList;
 	}
-	
-	@GetMapping("/tables")
-	public Optional<List<TestTablesInfo>> getTablesList()
-	{
-		Optional<List<TestTablesInfo>> tablesList= testTablesInfoRepository.findByDeleteFlag("N");
-		System.out.println("tablesList:" +tablesList);
 		
-		return tablesList;
-	}
-	
 	@GetMapping("/applications/{applicationId}/tables")
 	public List<TestTablesInfo> getTablesList(@PathVariable long applicationId)
 	{

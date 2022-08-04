@@ -1,5 +1,7 @@
 package utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +25,41 @@ public abstract class Reporter
 
 	public static synchronized void startExtentReport()
 	{
+		String pattern = "MM_dd_yyyy";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String date = simpleDateFormat.format(new Date());
+		
+		String pattern2 = "MM_dd_yyyy_HH_mm_ss";
+		simpleDateFormat = new SimpleDateFormat(pattern2);
+		String date2 = simpleDateFormat.format(new Date());
+		
 		extentReport = new ExtentReports();
-		ExtentSparkReporter spark = new ExtentSparkReporter("./reports/Spark.html");
+		String reportPath="src/main/resources/templates/";
+		ExtentSparkReporter spark = new ExtentSparkReporter(reportPath+"/"+date+"/"+date2+".html");
+		extentReport.attachReporter(spark);
+		log.debug("startExtentReport() is triggered and extent report is started");
+	}
+	
+	public static synchronized void startExtentReport(String reportName)
+	{
+		String pattern = "MM_dd_yyyy_HH_mm_ss";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String date = simpleDateFormat.format(new Date());
+		System.out.println(date);
+		
+		extentReport = new ExtentReports();
+		String reportPath="src/main/resources/templates/";
+		ExtentSparkReporter spark;
+		
+		if(reportName.isBlank())
+		{
+			spark = new ExtentSparkReporter(reportPath+date+".html");
+		}
+		else
+		{
+			spark = new ExtentSparkReporter(reportPath+reportName+".html");
+		}
+		
 		extentReport.attachReporter(spark);
 		log.debug("startExtentReport() is triggered and extent report is started");
 	}

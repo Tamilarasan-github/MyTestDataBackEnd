@@ -76,6 +76,13 @@ public class TestSuiteExecutionHistoryController
 				
 				XmlSuite suite = new XmlSuite();
 				suite.setName(testSuiteExecutionHistoryEntity.getSuiteName());
+				
+				 HashMap<String,String> testngParams = new HashMap<String,String> ();
+				    testngParams.put("browserName", testSuiteExecutionHistoryEntity.getBrowser()); 
+				    testngParams.put("suiteId",String.valueOf(testSuiteExecutionHistoryEntity.getSuiteId())); 
+				    testngParams.put("suiteName",testSuiteExecutionHistoryEntity.getSuiteName()); 
+				    testngParams.put("url",testSuiteExecutionHistoryEntity.getUrl()); 
+				    suite.setParameters(testngParams);
 				 
 				XmlTest test = new XmlTest(suite);
 				test.setName(testSuiteExecutionHistoryEntity.getSuiteName());
@@ -96,12 +103,7 @@ public class TestSuiteExecutionHistoryController
 				TestNG testNG = new TestNG();
 				testNG.setXmlSuites(suites);
 				
-				 HashMap<String,String> testngParams = new HashMap<String,String> ();
-				    testngParams.put("browserName", testSuiteExecutionHistoryEntity.getBrowser()); 
-				    testngParams.put("suiteId",String.valueOf(testSuiteExecutionHistoryEntity.getSuiteId())); 
-				    testngParams.put("suiteName",testSuiteExecutionHistoryEntity.getSuiteName()); 
-				    testngParams.put("url",testSuiteExecutionHistoryEntity.getUrl()); 
-				    test.setParameters(testngParams);
+				
 				    
 				testSuiteExecutionHistoryRepository.updateSuiteStatusById("In-progress", suiteId);
 				
@@ -169,7 +171,7 @@ public class TestSuiteExecutionHistoryController
 	public String viewReport(@PathVariable("suiteId") String suiteId)
 	{
 		System.out.println("View Report:"+suiteId);
-		return "Spark";
+		return suiteId;
 
 	}
 
