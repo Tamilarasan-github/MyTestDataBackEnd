@@ -18,7 +18,7 @@ import backend.applications.TestApplicationsInfo;
 import backend.applications.TestApplicationsInfoRepository;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RestController
 public class TestFieldsInfoController
 {

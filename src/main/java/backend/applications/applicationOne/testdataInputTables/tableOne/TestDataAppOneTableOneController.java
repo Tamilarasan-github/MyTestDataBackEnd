@@ -26,7 +26,7 @@ import backend.applications.applicationOne.TestDataMetaAppOneSpecifications;
 import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneRepository;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RestController
 @RequestMapping("/applications/1001/tables/2001")
 public class TestDataAppOneTableOneController

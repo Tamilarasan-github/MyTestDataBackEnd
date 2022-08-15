@@ -130,9 +130,8 @@ public class Helper extends SuperHelper{
 		String testScriptName=iTestNGMethod.getRealClass().getSimpleName();
 		List<TestDataMetaAppOneEntity> testData = new ArrayList<TestDataMetaAppOneEntity>();
 		
-		try{  
-			Class.forName("oracle.jdbc.driver.OracleDriver");  
-			Connection con=DriverManager.getConnection(configProp.getProperty("oracle_db_url"),configProp.getProperty("oracle_db_username"),configProp.getProperty("oracle_db_password"));  
+		try{    
+			Connection con=DriverManager.getConnection(configProp.getProperty("db_url"),configProp.getProperty("db_username"),configProp.getProperty("db_password"));  
 			Statement stmt=con.createStatement();  
 			ResultSet rs=stmt.executeQuery("SELECT * FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.RUN_FLAG='Y' AND t.DELETE_FLAG='N'");  
 			

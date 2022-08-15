@@ -70,6 +70,14 @@ public class TestScript_T0001 extends Helper
 //		enterTextAndClickEnter(searchBar, testDataAppOneTableTwoEntityList.get(0).getColumnD(), true);
 //		enterTextAndClickEnter(searchBar, testDataAppOneTableTwoEntityList.get(0).getColumnE(), true);
 		}
+		try
+		{
+			Thread.sleep(13000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		getWebDriver().quit();
 		System.out.println("TestScript_T0001 - Completed");
 	}

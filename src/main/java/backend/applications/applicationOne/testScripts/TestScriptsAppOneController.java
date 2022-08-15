@@ -34,7 +34,7 @@ import backend.applications.applicationOne.testExecutionResults.testScripts.Test
 import backend.applications.applicationOne.testExecutionResults.testSuite.TestSuiteExecutionHistoryEntity;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RestController
 @RequestMapping("/applications/1001/testscripts")
 public class TestScriptsAppOneController

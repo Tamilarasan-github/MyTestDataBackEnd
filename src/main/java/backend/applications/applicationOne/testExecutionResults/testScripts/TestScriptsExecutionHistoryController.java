@@ -16,7 +16,7 @@ import backend.applications.TestScriptsDropdownValues;
 import backend.applications.applicationOne.testExecutionResults.testSuite.TestSuiteExecutionHistoryEntity;
 import backend.applications.applicationOne.testScripts.TestScriptsAppOneRepository;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RestController
 @RequestMapping("/applications/1001/execution-summary/testScripts")
 public class TestScriptsExecutionHistoryController

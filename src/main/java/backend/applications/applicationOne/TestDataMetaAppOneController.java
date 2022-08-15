@@ -22,7 +22,7 @@ import backend.applications.applicationOne.testdataInputTables.tableOne.TestData
 import backend.applications.tables.TestTablesInfo;
 import backend.applications.tables.TestTablesInfoRepository;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RestController
 @RequestMapping("/applications/1001")
 public class TestDataMetaAppOneController
