@@ -18,6 +18,7 @@ public class TestFieldsInfoEntity
 	private String field_name;
 	private String field_name_api;
 	private String field_name_db;
+	private String ui_screen_name;
 	private String field_data_type;
 	private long table_id;
 	private int field_order;
@@ -33,7 +34,7 @@ public class TestFieldsInfoEntity
 	}
 
 	public TestFieldsInfoEntity(long field_id, String field_name, String field_name_api, String field_name_db,
-			String field_data_type, long table_id, int field_order, String delete_flag, String created_by,
+			String ui_screen_name, String field_data_type, long table_id, int field_order, String delete_flag, String created_by,
 			Date created_on, String updated_by, Date updated_on)
 	{
 		super();
@@ -41,6 +42,7 @@ public class TestFieldsInfoEntity
 		this.field_name = field_name;
 		this.field_name_api = field_name_api;
 		this.field_name_db = field_name_db;
+		this.ui_screen_name=ui_screen_name;
 		this.field_data_type = field_data_type;
 		this.table_id = table_id;
 		this.field_order = field_order;
@@ -90,7 +92,17 @@ public class TestFieldsInfoEntity
 	{
 		this.field_name_db = field_name_db;
 	}
+	
+	public String getUi_screen_name()
+	{
+		return ui_screen_name;
+	}
 
+	public void setUi_screen_name(String ui_screen_name)
+	{
+		this.ui_screen_name = ui_screen_name;
+	}
+	
 	public String getField_data_type()
 	{
 		return field_data_type;
@@ -175,12 +187,12 @@ public class TestFieldsInfoEntity
 	public String toString()
 	{
 		return "TestFieldsInfoEntity [field_id=" + field_id + ", field_name=" + field_name + ", field_name_api="
-				+ field_name_api + ", field_name_db=" + field_name_db + ", field_data_type=" + field_data_type
-				+ ", table_id=" + table_id + ", field_order=" + field_order + ", delete_flag=" + delete_flag
-				+ ", created_by=" + created_by + ", created_on=" + created_on + ", updated_by=" + updated_by
-				+ ", updated_on=" + updated_on + "]";
+				+ field_name_api + ", field_name_db=" + field_name_db + ", ui_screen_name=" + ui_screen_name
+				+ ", field_data_type=" + field_data_type + ", table_id=" + table_id + ", field_order=" + field_order
+				+ ", delete_flag=" + delete_flag + ", created_by=" + created_by + ", created_on=" + created_on
+				+ ", updated_by=" + updated_by + ", updated_on=" + updated_on + "]";
 	}
-	
-	
+
+		
 
 }

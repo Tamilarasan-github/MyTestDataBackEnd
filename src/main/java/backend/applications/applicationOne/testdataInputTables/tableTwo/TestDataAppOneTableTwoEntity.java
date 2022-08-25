@@ -24,7 +24,7 @@ import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 public class TestDataAppOneTableTwoEntity
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name="TEST_DATA_ID")
 	private int testDataId;
 		

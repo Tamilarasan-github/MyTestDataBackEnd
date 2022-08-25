@@ -24,8 +24,8 @@ import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 public class TestDataAppOneTableOneEntity
 {
 	@Id
-	@SequenceGenerator(name = "TEST_DATA_ID", sequenceName = "TEST_DATA_ID_TABLE_ONE_SEQ", schema="tamil", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_ID")
+//	@SequenceGenerator(name = "TEST_DATA_ID", sequenceName = "TEST_DATA_ID_TABLE_ONE_SEQ", schema="tamil", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_ID")
 	@Column(name="TEST_DATA_ID")
 	private int testDataId;
 		

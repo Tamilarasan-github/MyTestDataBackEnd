@@ -17,8 +17,8 @@ public class TestDataExecutionHistoryMetaEntity
 {
 	@Id
 	@Column(name="TEST_DATA_EXEC_ID")
-	@SequenceGenerator(name = "TEST_DATA_EXECUTION_ID", sequenceName = "TEST_DATA_EXECUTION_ID_SEQ", schema="tamil", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_EXECUTION_ID")
+//	@SequenceGenerator(name = "TEST_DATA_EXECUTION_ID", sequenceName = "TEST_DATA_EXECUTION_ID_SEQ", schema="tamil", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_EXECUTION_ID")
 	private long testDataExecutionId;
 	
 	@Column(name="SUITE_ID")

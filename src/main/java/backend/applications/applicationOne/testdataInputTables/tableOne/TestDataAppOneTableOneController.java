@@ -1,8 +1,13 @@
 package backend.applications.applicationOne.testdataInputTables.tableOne;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,6 +30,7 @@ import backend.applications.applicationOne.TestDataMetaAppOneRepository;
 import backend.applications.applicationOne.TestDataMetaAppOneSpecifications;
 import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneRepository;
+import backend.utils.ExcelUtils;
 
 @CrossOrigin
 @RestController
@@ -146,5 +152,26 @@ public class TestDataAppOneTableOneController
 		}
 		return testDataDaoService.deleteTestDataMeta(tableId, testDataMeta);
 		
+	}
+	
+	@PostMapping("/exportExcel")
+	public ResponseEntity<Resource> exportExcel(@RequestBody TestDataSearchRequest testDataSearchRequest)
+	{
+		ExcelUtils excelUtils=new ExcelUtils();
+		String fileName="NewFileName_1";
+		excelUtils.createWorkbook(fileName, "NewSheet");
+		File file= new File("src/main/resources/GeneratedExcelFiles/"+fileName+".xlsx");
+		Resource resource =null;
+		try
+		{
+			resource = new UrlResource(file.toURI());
+		} catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		 return ResponseEntity.ok()
+                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                 .body(resource);
 	}
 }

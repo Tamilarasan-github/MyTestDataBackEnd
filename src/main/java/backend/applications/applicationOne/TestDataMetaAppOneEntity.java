@@ -31,8 +31,8 @@ public class TestDataMetaAppOneEntity
 {
 	@Id
 	@Column(name="TEST_DATA_META_ID")
-	@SequenceGenerator(name = "TEST_DATA_META_ID", sequenceName = "TEST_DATA_META_ID_SEQ", schema="tamil", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_META_ID")
+//	@SequenceGenerator(name = "TEST_DATA_META_ID", sequenceName = "TEST_DATA_META_ID_SEQ", schema="tamil", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_META_ID")
 	private Integer testDataMetaId;
 		
 	@Column(name="TEST_CASE_ID")

@@ -19,8 +19,8 @@ public class TestScriptsExecutionHistoryEntity
 {
 	@Id
 	@Column(name="TEST_SCRIPT_EXEC_ID")
-	@SequenceGenerator(name = "TEST_SCRIPT_EXEC_ID", sequenceName = "TEST_SCRIPT_EXECUTION_ID_SEQ", schema="tamil", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_SCRIPT_EXEC_ID")
+//	@SequenceGenerator(name = "TEST_SCRIPT_EXEC_ID", sequenceName = "TEST_SCRIPT_EXECUTION_ID_SEQ", schema="tamil", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_SCRIPT_EXEC_ID")
 	private long testScriptExecutionId;
 	
 	@Column(name="SUITE_ID")
