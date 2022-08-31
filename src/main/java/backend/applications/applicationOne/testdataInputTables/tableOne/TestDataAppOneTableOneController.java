@@ -2,11 +2,14 @@ package backend.applications.applicationOne.testdataInputTables.tableOne;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +33,7 @@ import backend.applications.applicationOne.TestDataMetaAppOneRepository;
 import backend.applications.applicationOne.TestDataMetaAppOneSpecifications;
 import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneRepository;
-import backend.utils.ExcelUtils;
+import backend.utils.Utils;
 
 @CrossOrigin
 @RestController
@@ -157,9 +160,18 @@ public class TestDataAppOneTableOneController
 	@PostMapping("/exportExcel")
 	public ResponseEntity<Resource> exportExcel(@RequestBody TestDataSearchRequest testDataSearchRequest)
 	{
-		ExcelUtils excelUtils=new ExcelUtils();
-		String fileName="NewFileName_1";
-		excelUtils.createWorkbook(fileName, "NewSheet");
+		TestDataAppOneTableOneService testDataAppOneTableOneService=new TestDataAppOneTableOneService();
+		
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
+		Date date = new Date();
+		String currentDataAndTime = formatter.format(date);
+		
+		String fileName="TestData_Table1_".concat(currentDataAndTime);
+		testDataAppOneTableOneService.createWorkbook(fileName, "Table_1", getTestData(testDataSearchRequest));
+		
+		
+		
 		File file= new File("src/main/resources/GeneratedExcelFiles/"+fileName+".xlsx");
 		Resource resource =null;
 		try
@@ -170,8 +182,13 @@ public class TestDataAppOneTableOneController
 			e.printStackTrace();
 		}
 		
+		HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.set("fileName", fileName);
+	    responseHeaders.set("Access-Control-Expose-Headers", "*");
+		
 		 return ResponseEntity.ok()
                  .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                 .headers(responseHeaders)
                  .body(resource);
 	}
 }

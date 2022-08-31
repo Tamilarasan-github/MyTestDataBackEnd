@@ -1,7 +1,9 @@
 package backend.applications.applicationOne.testScripts;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +87,12 @@ public class TestScriptsAppOneController
 		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("testScriptsCategory",SearchOperator.IN,testScriptSearchRequest.getTestScriptsCategory()));
 		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("createdBy",SearchOperator.IN,testScriptSearchRequest.getCreatedBy()));
 		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("updatedBy",SearchOperator.IN,testScriptSearchRequest.getUpdatedBy()));
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = testScriptSearchRequest.getUpdatedFrom();
+		String currentDataAndTime = formatter.format(date);
+		
+		
 
 		List<TestScriptsEntity> filteredtestScriptsAppOneEntity = testScriptsAppOneRepository.findAll(testScriptsAppOneSpecifications);
 		System.out.println("Filtered record:"+filteredtestScriptsAppOneEntity.toString());

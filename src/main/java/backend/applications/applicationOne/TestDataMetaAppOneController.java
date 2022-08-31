@@ -1,5 +1,8 @@
 package backend.applications.applicationOne;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,5 +118,20 @@ public class TestDataMetaAppOneController
 		System.out.println("Filtered record:"+filteredTestDataMeta.toString());
 		
 		return filteredTestDataMeta;
+	}
+	
+	@DeleteMapping("/deleteExcel/{fileName}")
+	public String deleteGeneratedExcel(@PathVariable String fileName)
+	{
+		File file= new File("src/main/resources/GeneratedExcelFiles/"+fileName+".xlsx");
+//		try
+//		{
+//			boolean result = Files.deleteIfExists(file.toPath());
+//		} 
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+		return fileName;
 	}
 }
