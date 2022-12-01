@@ -34,15 +34,20 @@ public class TestScript_T0001 extends Helper
 	@BeforeClass
 	public void setValues()
 	{
-		description = "Open Google and Search";
-		testcaseName = "TestScript_T0001";
+		description.set("Open Google and Search");
+		testcaseName.set("TestScript_T0001");
+		
+		testDataFileNameWithPath.set("//filename with path");
+		testDataSheetName.set("sheetName..");
+		
 	}
 
 	@Test(dataProvider="testDataProvider")
 	public void openGoogle(TestDataMetaAppOneEntity testData)
 	{
 		// WebDriverManager.chromedriver().setup();
-		
+		createNewTest(testData.getTestShortDescription(), testData.getTestScenario());
+
 		System.out.println(testData.getTestTableOne());
 		System.out.println(testData.getTestTableTwo());
 		
@@ -50,7 +55,9 @@ public class TestScript_T0001 extends Helper
 		List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwoEntityList=testData.getTestDataAppOneTableTwo();
 
 		openBrowser("chrome");
-		getWebDriver().get(url);
+		getWebDriver().get(url.get());
+		
+		
 		WebElement searchBar = getWebDriver().findElement(By.name("q"));
 		
 		if(testDataAppOneTableOneEntityList.size()>0)

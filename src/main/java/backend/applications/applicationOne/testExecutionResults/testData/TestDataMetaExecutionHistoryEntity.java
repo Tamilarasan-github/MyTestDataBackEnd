@@ -1,41 +1,49 @@
 package backend.applications.applicationOne.testExecutionResults.testData;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name="TEST_DATA_EXECUTION_HISTORY_META_APP_ONE")
-public class TestDataExecutionHistoryMetaEntity
+@Table(name="TEST_DATA_META_EXECUTION_HISTORY_APP_ONE")
+public class TestDataMetaExecutionHistoryEntity
 {
 	@Id
-	@Column(name="TEST_DATA_EXEC_ID")
+	@Column(name="ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@SequenceGenerator(name = "TEST_DATA_EXECUTION_ID", sequenceName = "TEST_DATA_EXECUTION_ID_SEQ", schema="tamil", allocationSize = 1)
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_EXECUTION_ID")
-	private long testDataExecutionId;
+	private Integer id;
+	
+	@Column(name="SUITE_EXECUTION_ID")
+	private Integer suiteExecutionId;
 	
 	@Column(name="SUITE_ID")
-	private long suiteId;
+	private Integer suiteId;
 	
-	@Column(name="TEST_SCRIPT_EXEC_ID")
-	private long testScriptExecutionId;
+	@Column(name="TEST_SCRIPT_EXECUTION_ID")
+	private Integer testScriptExecutionId;
 	
-	@Column(name="TEST_DATA_META_ID")
-	private long testDataMetaId;
-	
-	@Column(name="TEST_CASE_ID")
-	private String testCaseId;
+	@Column(name="TEST_SCRIPT_ID")
+	private Integer testScriptId;
 	
 	@Column(name="TEST_SCRIPT_NAME")
 	private String testScriptName;
 	
+	@Column(name="TEST_DATA_META_ID")
+	private Integer testDataMetaId;
+	
+	@Column(name="TEST_CASE_ID")
+	private String testCaseId;
+		
 	@Column(name="RUN_FLAG")
 	private String runFlag;
 	
@@ -73,43 +81,46 @@ public class TestDataExecutionHistoryMetaEntity
 	private String executionStatus;
 	
 	@Column(name="EXECUTION_TIME")
-	private String executionTime;
+	private Integer executionTime;
 	
 	@Column(name="EXECUTED_BY")
 	private String executedBy;
 	
 	@Column(name="EXECUTED_ON")
-	private String executedOn;
+	private Date executedOn;
 	
 	@Column(name="UPDATED_BY")
 	private String updatedBy;
 	
 	@Column(name="UPDATED_DATE")
-	private String updatedDate;
+	private Date updatedDate;
 	
 	@Column(name="DELETE_FLAG")
 	private String deleteFlag;
 	
 	
-	public TestDataExecutionHistoryMetaEntity()
+	public TestDataMetaExecutionHistoryEntity()
 	{
 		
 	}
-	
-	public TestDataExecutionHistoryMetaEntity(long testDataExecutionId, long suiteId, long testScriptExecutionId,
-			long testDataMetaId, String testCaseId, String testScriptName, String runFlag, String testScenario,
-			int testPriority, String testCaseCategory, String jiraId, String automatedTestStatus,
-			String manualTestStatus, String testFailReason, String testInformation, String testComments,
-			String testIgnored, String executionStatus, String executionTime, String executedBy, String executedOn,
-			String updatedBy, String updatedDate, String deleteFlag)
+
+	public TestDataMetaExecutionHistoryEntity(Integer id, Integer suiteExecutionId, Integer suiteId,
+			Integer testScriptExecutionId, Integer testScriptId, String testScriptName, Integer testDataMetaId,
+			String testCaseId, String runFlag, String testScenario, int testPriority, String testCaseCategory,
+			String jiraId, String automatedTestStatus, String manualTestStatus, String testFailReason,
+			String testInformation, String testComments, String testIgnored, String executionStatus,
+			Integer executionTime, String executedBy, Date executedOn, String updatedBy, Date updatedDate,
+			String deleteFlag)
 	{
 		super();
-		this.testDataExecutionId = testDataExecutionId;
+		this.id = id;
+		this.suiteExecutionId = suiteExecutionId;
 		this.suiteId = suiteId;
 		this.testScriptExecutionId = testScriptExecutionId;
+		this.testScriptId = testScriptId;
+		this.testScriptName = testScriptName;
 		this.testDataMetaId = testDataMetaId;
 		this.testCaseId = testCaseId;
-		this.testScriptName = testScriptName;
 		this.runFlag = runFlag;
 		this.testScenario = testScenario;
 		this.testPriority = testPriority;
@@ -129,212 +140,337 @@ public class TestDataExecutionHistoryMetaEntity
 		this.updatedDate = updatedDate;
 		this.deleteFlag = deleteFlag;
 	}
-	public long getTestDataExecutionId()
+
+
+
+	public Integer getId()
 	{
-		return testDataExecutionId;
+		return id;
 	}
-	public void setTestDataExecutionId(long testDataExecutionId)
+
+
+	public void setId(Integer id)
 	{
-		this.testDataExecutionId = testDataExecutionId;
+		this.id = id;
 	}
-	public long getSuiteId()
+
+
+	public Integer getSuiteExecutionId()
+	{
+		return suiteExecutionId;
+	}
+
+
+	public void setSuiteExecutionId(Integer suiteExecutionId)
+	{
+		this.suiteExecutionId = suiteExecutionId;
+	}
+
+
+	public Integer getSuiteId()
 	{
 		return suiteId;
 	}
-	public void setSuiteId(long suiteId)
+
+
+	public void setSuiteId(Integer suiteId)
 	{
 		this.suiteId = suiteId;
 	}
-	public long getTestScriptExecutionId()
+
+
+	public Integer getTestScriptExecutionId()
 	{
 		return testScriptExecutionId;
 	}
-	public void setTestScriptExecutionId(long testScriptExecutionId)
+
+
+	public void setTestScriptExecutionId(Integer testScriptExecutionId)
 	{
 		this.testScriptExecutionId = testScriptExecutionId;
 	}
-	public long getTestDataMetaId()
+
+
+	public Integer getTestScriptId()
 	{
-		return testDataMetaId;
+		return testScriptId;
 	}
-	public void setTestDataMetaId(long testDataMetaId)
+
+
+	public void setTestScriptId(Integer testScriptId)
 	{
-		this.testDataMetaId = testDataMetaId;
+		this.testScriptId = testScriptId;
 	}
-	public String getTestCaseId()
-	{
-		return testCaseId;
-	}
-	public void setTestCaseId(String testCaseId)
-	{
-		this.testCaseId = testCaseId;
-	}
+
+
 	public String getTestScriptName()
 	{
 		return testScriptName;
 	}
+
+
 	public void setTestScriptName(String testScriptName)
 	{
 		this.testScriptName = testScriptName;
 	}
+
+
+	public Integer getTestDataMetaId()
+	{
+		return testDataMetaId;
+	}
+
+
+	public void setTestDataMetaId(Integer testDataMetaId)
+	{
+		this.testDataMetaId = testDataMetaId;
+	}
+
+
+	public String getTestCaseId()
+	{
+		return testCaseId;
+	}
+
+
+	public void setTestCaseId(String testCaseId)
+	{
+		this.testCaseId = testCaseId;
+	}
+
+
 	public String getRunFlag()
 	{
 		return runFlag;
 	}
+
+
 	public void setRunFlag(String runFlag)
 	{
 		this.runFlag = runFlag;
 	}
+
+
 	public String getTestScenario()
 	{
 		return testScenario;
 	}
+
+
 	public void setTestScenario(String testScenario)
 	{
 		this.testScenario = testScenario;
 	}
+
+
 	public int getTestPriority()
 	{
 		return testPriority;
 	}
+
+
 	public void setTestPriority(int testPriority)
 	{
 		this.testPriority = testPriority;
 	}
+
+
 	public String getTestCaseCategory()
 	{
 		return testCaseCategory;
 	}
+
+
 	public void setTestCaseCategory(String testCaseCategory)
 	{
 		this.testCaseCategory = testCaseCategory;
 	}
+
+
 	public String getJiraId()
 	{
 		return jiraId;
 	}
+
+
 	public void setJiraId(String jiraId)
 	{
 		this.jiraId = jiraId;
 	}
+
+
 	public String getAutomatedTestStatus()
 	{
 		return automatedTestStatus;
 	}
+
+
 	public void setAutomatedTestStatus(String automatedTestStatus)
 	{
 		this.automatedTestStatus = automatedTestStatus;
 	}
+
+
 	public String getManualTestStatus()
 	{
 		return manualTestStatus;
 	}
+
+
 	public void setManualTestStatus(String manualTestStatus)
 	{
 		this.manualTestStatus = manualTestStatus;
 	}
+
+
 	public String getTestFailReason()
 	{
 		return testFailReason;
 	}
+
+
 	public void setTestFailReason(String testFailReason)
 	{
 		this.testFailReason = testFailReason;
 	}
+
+
 	public String getTestInformation()
 	{
 		return testInformation;
 	}
+
+
 	public void setTestInformation(String testInformation)
 	{
 		this.testInformation = testInformation;
 	}
+
+
 	public String getTestComments()
 	{
 		return testComments;
 	}
+
+
 	public void setTestComments(String testComments)
 	{
 		this.testComments = testComments;
 	}
+
+
 	public String getTestIgnored()
 	{
 		return testIgnored;
 	}
+
+
 	public void setTestIgnored(String testIgnored)
 	{
 		this.testIgnored = testIgnored;
 	}
+
+
 	public String getExecutionStatus()
 	{
 		return executionStatus;
 	}
+
+
 	public void setExecutionStatus(String executionStatus)
 	{
 		this.executionStatus = executionStatus;
 	}
-	public String getExecutionTime()
+
+
+	public Integer getExecutionTime()
 	{
 		return executionTime;
 	}
-	public void setExecutionTime(String executionTime)
+
+
+	public void setExecutionTime(Integer executionTime)
 	{
 		this.executionTime = executionTime;
 	}
+
+
 	public String getExecutedBy()
 	{
 		return executedBy;
 	}
+
+
 	public void setExecutedBy(String executedBy)
 	{
 		this.executedBy = executedBy;
 	}
-	public String getExecutedOn()
+
+
+	public Date getExecutedOn()
 	{
 		return executedOn;
 	}
-	public void setExecutedOn(String executedOn)
+
+
+	public void setExecutedOn(Date executedOn)
 	{
 		this.executedOn = executedOn;
 	}
+
+
 	public String getUpdatedBy()
 	{
 		return updatedBy;
 	}
+
+
 	public void setUpdatedBy(String updatedBy)
 	{
 		this.updatedBy = updatedBy;
 	}
-	public String getUpdatedDate()
+
+
+	public Date getUpdatedDate()
 	{
 		return updatedDate;
 	}
-	public void setUpdatedDate(String updatedDate)
+
+
+	public void setUpdatedDate(Date updatedDate)
 	{
 		this.updatedDate = updatedDate;
 	}
+
+
 	public String getDeleteFlag()
 	{
 		return deleteFlag;
 	}
+
+
 	public void setDeleteFlag(String deleteFlag)
 	{
 		this.deleteFlag = deleteFlag;
 	}
+
+
 	@Override
 	public String toString()
 	{
-		return "TestDataExecutionHistoryMeta [testDataExecutionId=" + testDataExecutionId + ", suiteId=" + suiteId
-				+ ", testScriptExecutionId=" + testScriptExecutionId + ", testDataMetaId=" + testDataMetaId
-				+ ", testCaseId=" + testCaseId + ", testScriptName=" + testScriptName + ", runFlag=" + runFlag
-				+ ", testScenario=" + testScenario + ", testPriority=" + testPriority + ", testCaseCategory="
-				+ testCaseCategory + ", jiraId=" + jiraId + ", automatedTestStatus=" + automatedTestStatus
-				+ ", manualTestStatus=" + manualTestStatus + ", testFailReason=" + testFailReason + ", testInformation="
-				+ testInformation + ", testComments=" + testComments + ", testIgnored=" + testIgnored
-				+ ", executionStatus=" + executionStatus + ", executionTime=" + executionTime + ", executedBy="
-				+ executedBy + ", executedOn=" + executedOn + ", updatedBy=" + updatedBy + ", updatedDate="
-				+ updatedDate + ", deleteFlag=" + deleteFlag + "]";
+		return "TestDataExecutionHistoryMetaEntity [id=" + id + ", suiteExecutionId=" + suiteExecutionId + ", suiteId="
+				+ suiteId + ", testScriptExecutionId=" + testScriptExecutionId + ", testScriptId=" + testScriptId
+				+ ", testScriptName=" + testScriptName + ", testDataMetaId=" + testDataMetaId + ", testCaseId="
+				+ testCaseId + ", runFlag=" + runFlag + ", testScenario=" + testScenario + ", testPriority="
+				+ testPriority + ", testCaseCategory=" + testCaseCategory + ", jiraId=" + jiraId
+				+ ", automatedTestStatus=" + automatedTestStatus + ", manualTestStatus=" + manualTestStatus
+				+ ", testFailReason=" + testFailReason + ", testInformation=" + testInformation + ", testComments="
+				+ testComments + ", testIgnored=" + testIgnored + ", executionStatus=" + executionStatus
+				+ ", executionTime=" + executionTime + ", executedBy=" + executedBy + ", executedOn=" + executedOn
+				+ ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + ", deleteFlag=" + deleteFlag + "]";
 	}
+	
+	
 	
 	
 

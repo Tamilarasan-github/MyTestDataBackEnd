@@ -24,10 +24,11 @@ import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 public class TestDataAppOneTableOneEntity
 {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@SequenceGenerator(name = "TEST_DATA_ID", sequenceName = "TEST_DATA_ID_TABLE_ONE_SEQ", schema="tamil", allocationSize = 1)
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_ID")
 	@Column(name="TEST_DATA_ID")
-	private int testDataId;
+	private Integer testDataId;
 		
 	@Column(name="TEST_ROW_DETAIL")
 	private String testRowDetail;
@@ -62,7 +63,7 @@ public class TestDataAppOneTableOneEntity
 	
 	
 
-	public TestDataAppOneTableOneEntity(int testDataId, String testRowDetail, String deleteFlag, String column1, String column2,
+	public TestDataAppOneTableOneEntity(Integer testDataId, String testRowDetail, String deleteFlag, String column1, String column2,
 			String column3, String column4, String column5, TestDataMetaAppOneEntity testDataMeta)
 	{
 		super();
@@ -79,12 +80,12 @@ public class TestDataAppOneTableOneEntity
 
 
 
-	public int getTestDataId()
+	public Integer getTestDataId()
 	{
 		return testDataId;
 	}
 
-	public void setTestDataId(int testDataId)
+	public void setTestDataId(Integer testDataId)
 	{
 		this.testDataId = testDataId;
 	}

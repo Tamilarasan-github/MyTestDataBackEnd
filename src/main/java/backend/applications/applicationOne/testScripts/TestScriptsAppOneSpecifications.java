@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -203,11 +204,12 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 				
 			}
 			else if(searchCriteria.getDateFrom()!=null && searchCriteria.getDateTo()!=null)
-			{
-				SimpleDateFormat dateFormat=new SimpleDateFormat("MM-dd-yyyy");
-				
+			{	
+				System.out.println("Test scripts Dates:"+searchCriteria.getKey()+" From "+searchCriteria.getDateFrom()+" to "+searchCriteria.getDateTo());
+
 				if(searchCriteria.getOperator().equals(SearchOperator.BETWEEN_DATES))
 				{			
+					predicatesList.add(criteriaBuilder.between(root.get(searchCriteria.getKey()),searchCriteria.getDateFrom(), searchCriteria.getDateTo()));
 				}
 			}
 		}

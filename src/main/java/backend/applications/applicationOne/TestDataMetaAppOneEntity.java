@@ -1,6 +1,6 @@
 package backend.applications.applicationOne;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneEntity;
@@ -30,6 +31,7 @@ import backend.applications.tables.TestTablesInfo;
 public class TestDataMetaAppOneEntity
 {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="TEST_DATA_META_ID")
 //	@SequenceGenerator(name = "TEST_DATA_META_ID", sequenceName = "TEST_DATA_META_ID_SEQ", schema="tamil", allocationSize = 1)
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_DATA_META_ID")
@@ -48,7 +50,7 @@ public class TestDataMetaAppOneEntity
 	private String runFlag;
 	
 	@Column(name="TEST_PRIORITY")
-	private String testPriority;
+	private Integer testPriority;
 	
 	@Column(name="TEST_CATEGORY")
 	private String testCategory;
@@ -103,7 +105,7 @@ public class TestDataMetaAppOneEntity
 	}
 
 	public TestDataMetaAppOneEntity(Integer testDataMetaId, String testCaseId, String testShortDescription,
-			String testScenario, String runFlag, String testPriority, String testCategory, String testScriptName,
+			String testScenario, String runFlag, Integer testPriority, String testCategory, String testScriptName,
 			String jiraId, String testExecutionTime, String createdBy, Date createdDate, String updatedBy,
 			Date updatedDate, String deleteFlag, Integer testTableOne, Integer testTableTwo, Integer testTableThree,
 			List<TestDataAppOneTableOneEntity> testDataAppOneTableOne,
@@ -182,12 +184,12 @@ public class TestDataMetaAppOneEntity
 		this.runFlag = runFlag;
 	}
 
-	public String getTestPriority()
+	public Integer getTestPriority()
 	{
 		return testPriority;
 	}
 
-	public void setTestPriority(String testPriority)
+	public void setTestPriority(Integer testPriority)
 	{
 		this.testPriority = testPriority;
 	}

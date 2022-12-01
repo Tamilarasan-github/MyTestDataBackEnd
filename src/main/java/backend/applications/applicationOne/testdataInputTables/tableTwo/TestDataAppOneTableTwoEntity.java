@@ -24,9 +24,9 @@ import backend.applications.applicationOne.TestDataMetaAppOneEntity;
 public class TestDataAppOneTableTwoEntity
 {
 	@Id
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="TEST_DATA_ID")
-	private int testDataId;
+	private Integer testDataId;
 		
 	@Column(name="TEST_ROW_DETAIL")
 	private String testRowDetail;
@@ -59,7 +59,7 @@ public class TestDataAppOneTableTwoEntity
 		
 	}
 
-	public TestDataAppOneTableTwoEntity(int testDataId, String testRowDetail, String deleteFlag, String columnA, String columnB,
+	public TestDataAppOneTableTwoEntity(Integer testDataId, String testRowDetail, String deleteFlag, String columnA, String columnB,
 			String columnC, String columnD, String columnE, TestDataMetaAppOneEntity testDataMeta)
 	{
 		super();
@@ -74,12 +74,12 @@ public class TestDataAppOneTableTwoEntity
 		this.testDataMeta = testDataMeta;
 	}
 
-	public int getTestDataId()
+	public Integer getTestDataId()
 	{
 		return testDataId;
 	}
 
-	public void setTestDataId(int testDataId)
+	public void setTestDataId(Integer testDataId)
 	{
 		this.testDataId = testDataId;
 	}

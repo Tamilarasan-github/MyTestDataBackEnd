@@ -1,6 +1,6 @@
 package backend.applications.applicationOne.testExecutionResults.testSuite;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,14 +14,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name="TEST_SUITE_EXECUTION_HISTORY")
+@Table(name="TEST_SUITE_EXECUTION_HISTORY_APP_ONE")
 public class TestSuiteExecutionHistoryEntity
 {
 	@Id
-	@Column(name="SUITE_ID")
+	@Column(name="EXECUTION_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@SequenceGenerator(name = "SUITE_ID", sequenceName = "TEST_SUITE_EXECUTION_ID_SEQ", schema="tamil", allocationSize = 1)
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SUITE_ID")
-	private long suiteId;
+	private Integer executionId;
+	
+	@Column(name="SUITE_ID")
+	private Integer suiteId;
 	
 	@Column(name="SUITE_NAME")
 	private String suiteName;
@@ -39,10 +43,10 @@ public class TestSuiteExecutionHistoryEntity
 	private String browser;
 		
 	@Column(name="CREATED_BY")
-	private String createdBy;
+	private String executedBy;
 	
 	@Column(name="CREATED_DATE")
-	private Date createdDate;
+	private Date executedDate;
 	
 	@Column(name="UPDATED_BY")
 	private String updatedBy;
@@ -51,32 +55,42 @@ public class TestSuiteExecutionHistoryEntity
 	private Date updatedDate;
 	
 	public TestSuiteExecutionHistoryEntity()
-	{
-		
-	}
+	{}
 
-	public TestSuiteExecutionHistoryEntity(long suiteId, String suiteName, String suiteDescription, String suiteStatus,
-			String url, String browser, String createdBy, Date createdDate, String updatedBy, Date updatedDate)
+	public TestSuiteExecutionHistoryEntity(Integer executionId, Integer suiteId, String suiteName,
+			String suiteDescription, String suiteStatus, String url, String browser, String executedBy,
+			Date executedDate, String updatedBy, Date updatedDate)
 	{
 		super();
+		this.executionId = executionId;
 		this.suiteId = suiteId;
 		this.suiteName = suiteName;
 		this.suiteDescription = suiteDescription;
 		this.suiteStatus = suiteStatus;
 		this.url = url;
 		this.browser = browser;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
+		this.executedBy = executedBy;
+		this.executedDate = executedDate;
 		this.updatedBy = updatedBy;
 		this.updatedDate = updatedDate;
 	}
 
-	public long getSuiteId()
+	public Integer getExecutionId()
+	{
+		return executionId;
+	}
+
+	public void setExecutionId(Integer executionId)
+	{
+		this.executionId = executionId;
+	}
+
+	public Integer getSuiteId()
 	{
 		return suiteId;
 	}
 
-	public void setSuiteId(long suiteId)
+	public void setSuiteId(Integer suiteId)
 	{
 		this.suiteId = suiteId;
 	}
@@ -131,24 +145,24 @@ public class TestSuiteExecutionHistoryEntity
 		this.browser = browser;
 	}
 
-	public String getCreatedBy()
+	public String getExecutedBy()
 	{
-		return createdBy;
+		return executedBy;
 	}
 
-	public void setCreatedBy(String createdBy)
+	public void setExecutedBy(String executedBy)
 	{
-		this.createdBy = createdBy;
+		this.executedBy = executedBy;
 	}
 
-	public Date getCreatedDate()
+	public Date getExecutedDate()
 	{
-		return createdDate;
+		return executedDate;
 	}
 
-	public void setCreatedDate(Date createdDate)
+	public void setExecutedDate(Date executedDate)
 	{
-		this.createdDate = createdDate;
+		this.executedDate = executedDate;
 	}
 
 	public String getUpdatedBy()
@@ -174,11 +188,12 @@ public class TestSuiteExecutionHistoryEntity
 	@Override
 	public String toString()
 	{
-		return "TestSuiteExecutionHistoryEntity [suiteId=" + suiteId + ", suiteName=" + suiteName
-				+ ", suiteDescription=" + suiteDescription + ", suiteStatus=" + suiteStatus + ", url=" + url
-				+ ", browser=" + browser + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedBy="
-				+ updatedBy + ", updatedDate=" + updatedDate + "]";
+		return "TestSuiteExecutionHistoryEntity [executionId=" + executionId + ", suiteId=" + suiteId + ", suiteName="
+				+ suiteName + ", suiteDescription=" + suiteDescription + ", suiteStatus=" + suiteStatus + ", url=" + url
+				+ ", browser=" + browser + ", executedBy=" + executedBy + ", executedDate=" + executedDate
+				+ ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + "]";
 	}
-
+	
+	
 	
 }

@@ -3,7 +3,12 @@ package utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -12,6 +17,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.ResourceUtils;
 
 public class ExcelUtils
 {
@@ -95,5 +101,34 @@ public class ExcelUtils
 			}
 		}
 		return data;
+	}
+	
+	public void createWorkbook()
+	{
+		Workbook workbook=new XSSFWorkbook();
+		Path source = Paths.get(this.getClass().getResource("/").getPath());
+		System.out.println("Path:"+source.toAbsolutePath().toString());
+		System.out.println("Path:"+source.getFileName().toString());
+        Path newFolder = Paths.get(source.toAbsolutePath() + "/GeneratedExcel/");
+        try
+		{
+			Files.createDirectories(newFolder);
+		} catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+
+		try
+		{
+			OutputStream fileOut=new FileOutputStream(source.toString());
+			workbook.write(fileOut);  
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

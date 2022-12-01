@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,42 +12,43 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class TestScriptSearchRequest
 {
 	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-	private String testScriptsId[];
+	private List<Integer> testScriptsId;
 	private String testScripts[];
 	private String testScriptsCategory[];
 	private String createdBy[];
-	private Date createdFrom;
-	private Date createdTo;
+	private Date createdDateFrom;
+	private Date createdDateTo;
 	private String updatedBy[];
-	private Date updatedFrom;
-	private Date updatedTo;
+	private Date updatedDateFrom;
+	private Date updatedDateTo;
 	
 	TestScriptSearchRequest()
 	{
 		
 	}
 
-	public TestScriptSearchRequest(String[] testScriptsId, String[] testScripts, String[] testScriptsCategory,
-			String[] createdBy, Date createdFrom, Date createdTo, String[] updatedBy, Date updatedFrom, Date updatedTo)
+	public TestScriptSearchRequest(List<Integer> testScriptsId, String[] testScripts, String[] testScriptsCategory,
+			String[] createdBy, Date createdDateFrom, Date createdDateTo, String[] updatedBy, Date updatedDateFrom,
+			Date updatedDateTo)
 	{
 		super();
 		this.testScriptsId = testScriptsId;
 		this.testScripts = testScripts;
 		this.testScriptsCategory = testScriptsCategory;
 		this.createdBy = createdBy;
-		this.createdFrom = createdFrom;
-		this.createdTo = createdTo;
+		this.createdDateFrom = createdDateFrom;
+		this.createdDateTo = createdDateTo;
 		this.updatedBy = updatedBy;
-		this.updatedFrom = updatedFrom;
-		this.updatedTo = updatedTo;
+		this.updatedDateFrom = updatedDateFrom;
+		this.updatedDateTo = updatedDateTo;
 	}
 
-	public String[] getTestScriptsId()
+	public List<Integer> getTestScriptsId()
 	{
 		return testScriptsId;
 	}
 
-	public void setTestScriptsId(String[] testScriptsId)
+	public void setTestScriptsId(List<Integer> testScriptsId)
 	{
 		this.testScriptsId = testScriptsId;
 	}
@@ -85,24 +83,24 @@ public class TestScriptSearchRequest
 		this.createdBy = createdBy;
 	}
 
-	public Date getCreatedFrom()
+	public Date getCreatedDateFrom()
 	{
-		return createdFrom;
+		return createdDateFrom;
 	}
 
-	public void setCreatedFrom(Date createdFrom)
+	public void setCreatedDateFrom(Date createdDateFrom)
 	{
-		this.createdFrom = createdFrom;
+		this.createdDateFrom = createdDateFrom;
 	}
 
-	public Date getCreatedTo()
+	public Date getCreatedDateTo()
 	{
-		return createdTo;
+		return createdDateTo;
 	}
 
-	public void setCreatedTo(Date createdTo)
+	public void setCreatedDateTo(Date createdDateTo)
 	{
-		this.createdTo = createdTo;
+		this.createdDateTo = createdDateTo;
 	}
 
 	public String[] getUpdatedBy()
@@ -115,35 +113,39 @@ public class TestScriptSearchRequest
 		this.updatedBy = updatedBy;
 	}
 
-	public Date getUpdatedFrom()
+	public Date getUpdatedDateFrom()
 	{
-		return updatedFrom;
+		return updatedDateFrom;
 	}
 
-	public void setUpdatedFrom(Date updatedFrom)
+	public void setUpdatedDateFrom(Date updatedDateFrom)
 	{
-		this.updatedFrom = updatedFrom;
+		this.updatedDateFrom = updatedDateFrom;
 	}
 
-	public Date getUpdatedTo()
+	public Date getUpdatedDateTo()
 	{
-		return updatedTo;
+		return updatedDateTo;
 	}
 
-	public void setUpdatedTo(Date updatedTo)
+	public void setUpdatedDateTo(Date updatedDateTo)
 	{
-		this.updatedTo = updatedTo;
+		this.updatedDateTo = updatedDateTo;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "TestScriptSearchRequest [testScriptsId=" + Arrays.toString(testScriptsId) + ", testScripts="
+		return "TestScriptSearchRequest [testScriptsId=" + testScriptsId + ", testScripts="
 				+ Arrays.toString(testScripts) + ", testScriptsCategory=" + Arrays.toString(testScriptsCategory)
-				+ ", createdBy=" + Arrays.toString(createdBy) + ", createdFrom=" + createdFrom + ", createdTo="
-				+ createdTo + ", updatedBy=" + Arrays.toString(updatedBy) + ", updatedFrom=" + updatedFrom
-				+ ", updatedTo=" + updatedTo + "]";
+				+ ", createdBy=" + Arrays.toString(createdBy) + ", createdDateFrom=" + createdDateFrom
+				+ ", createdDateTo=" + createdDateTo + ", updatedBy=" + Arrays.toString(updatedBy)
+				+ ", updatedDateFrom=" + updatedDateFrom + ", updatedDateTo=" + updatedDateTo + "]";
 	}
 
+	
+
+
+	
 	
 }

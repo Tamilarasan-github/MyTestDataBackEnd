@@ -1,5 +1,6 @@
 package backend.applications.applicationOne;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TestDataMetaAppOneRepository extends JpaRepository<TestDataMetaAppOneEntity, Integer>, JpaSpecificationExecutor<TestDataMetaAppOneEntity>
 {
+
+	@Query(value = "SELECT COUNT(TEST_DATA_META_ID) FROM TEST_DATA_META_APP_ONE t WHERE  t.DELETE_FLAG='N' AND (t.CREATED_DATE BETWEEN :dateFrom AND :dateTo)" , nativeQuery = true)
+	String findCountOfTotalTestcases(String dateFrom, String dateTo);
 	
+	@Query(value = "SELECT COUNT(TEST_DATA_META_ID) FROM TEST_DATA_META_APP_ONE t WHERE  t.DELETE_FLAG='N' AND t.TEST_CATEGORY=:testcaseCategory AND (t.CREATED_DATE BETWEEN :dateFrom AND :dateTo)" , nativeQuery = true)
+	String findCountOfTestcases(String dateFrom, String dateTo, String testcaseCategory);
+		
 	@Query(value = "SELECT DISTINCT(TEST_DATA_META_ID) FROM TEST_DATA_META_APP_ONE t WHERE  t.DELETE_FLAG='N'", nativeQuery = true)
 	List<String> findAllDistinctTestDataMetaId();
 	
@@ -42,10 +49,7 @@ public interface TestDataMetaAppOneRepository extends JpaRepository<TestDataMeta
 	@Query(value = "SELECT DISTINCT(UPDATED_BY) FROM TEST_DATA_META_APP_ONE t WHERE  t.DELETE_FLAG='N'", nativeQuery = true)
 	List<String> findAllDistinctUpdatedBy();
 	
-	
-	
-	
-	
+
 	
 	
 	@Query(value = "SELECT DISTINCT(TEST_DATA_META_ID) FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_TABLE_ONE=:tableId AND t.DELETE_FLAG='N'", nativeQuery = true)
@@ -80,6 +84,10 @@ public interface TestDataMetaAppOneRepository extends JpaRepository<TestDataMeta
 	
 	@Query(value = "SELECT DISTINCT(UPDATED_BY) FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_TABLE_ONE=:tableId AND t.DELETE_FLAG='N'", nativeQuery = true)
 	List<String> findAllDistinctUpdatedByByTestTableOne(long tableId);
+	
+	
+	
+	
 	
 	@Query(value = "SELECT DISTINCT(TEST_DATA_META_ID) FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_TABLE_TWO=:tableId AND t.DELETE_FLAG='N'", nativeQuery = true)
 	List<String> findAllDistinctTestDataMetaIdByTestTableTwo(long tableId);
@@ -116,5 +124,6 @@ public interface TestDataMetaAppOneRepository extends JpaRepository<TestDataMeta
 	
 	@Query(value = "SELECT * FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_SCRIPT_NAME=:testScriptName AND t.DELETE_FLAG='N'", nativeQuery = true)
 	List<TestDataMetaAppOneEntity> findAllByTestScriptName(String testScriptName);
+	
 	
 }

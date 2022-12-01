@@ -51,7 +51,7 @@ public abstract class Reporter
 		String reportPath="src/main/resources/templates/";
 		ExtentSparkReporter spark;
 		
-		if(reportName.isBlank())
+		if(reportName.isBlank() || reportName.equalsIgnoreCase("0") || reportName.equalsIgnoreCase(""))
 		{
 			spark = new ExtentSparkReporter(reportPath+date+".html");
 		}

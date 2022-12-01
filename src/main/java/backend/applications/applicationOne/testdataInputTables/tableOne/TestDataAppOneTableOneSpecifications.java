@@ -91,10 +91,10 @@ public class TestDataAppOneTableOneSpecifications implements Specification<TestD
 			}
 			else if(searchCriteria.getDateFrom()!=null && searchCriteria.getDateTo()!=null)
 			{
-				SimpleDateFormat dateFormat=new SimpleDateFormat("MM-dd-yyyy");
-				
+				System.out.println("Test Data App One Table One Dates:"+searchCriteria.getKey()+" From "+searchCriteria.getDateFrom()+" to "+searchCriteria.getDateTo());
 				if(searchCriteria.getOperator().equals(SearchOperator.BETWEEN_DATES))
 				{			
+					predicatesList.add(criteriaBuilder.between(root.get(searchCriteria.getKey()),searchCriteria.getDateFrom(), searchCriteria.getDateTo()));
 				}
 			}
 		}

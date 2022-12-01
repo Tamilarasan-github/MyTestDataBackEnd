@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.testng.ITestContext;
+import org.openqa.selenium.WebDriver;
+
 import org.testng.ITestNGMethod;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -27,55 +24,84 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
+import com.aventstack.extentreports.Status;
+
 import backend.applications.applicationOne.TestDataMetaAppOneEntity;
-import backend.applications.applicationOne.TestDataMetaAppOneRepository;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneEntity;
 import backend.applications.applicationOne.testdataInputTables.tableTwo.TestDataAppOneTableTwoEntity;
 
 public class Helper extends SuperHelper{
 
-	public String description;
-	public String testcaseName;
-	public String suiteId;
-	public String suiteName;
-	public String url;
-	public String userName;
-	public String password;
+	public static String testDataSourceLocalExecution;
+	public ThreadLocal<String> description = new ThreadLocal<>();
+	public ThreadLocal<String> testcaseName = new ThreadLocal<>();
 	
-		
+	public ThreadLocal<String> testDataFileNameWithPath = new ThreadLocal<>();
+	public ThreadLocal<String> testDataSheetName = new ThreadLocal<>();
+
+	public ThreadLocal<Integer> suiteExecutionId = new ThreadLocal<>();
+	public ThreadLocal<Integer> suiteId = new ThreadLocal<>();
+	public ThreadLocal<String> suiteName = new ThreadLocal<>();
+	public ThreadLocal<String> url = new ThreadLocal<>();
+	public ThreadLocal<String> userName = new ThreadLocal<>();
+	public ThreadLocal<String> password = new ThreadLocal<>();
+	
+	public ThreadLocal<String> queryLocalExecution = new ThreadLocal<>();
+	
+	static ThreadLocal<WebDriver> driver= new ThreadLocal<>();
+
+	
 	@BeforeSuite
-	@Parameters ({"suiteId", "suiteName", "url","userName","password"})
-	public void beforeSuite(@Optional("") String suiteId, @Optional("DirectExecution") String suiteName, @Optional("")String url, @Optional("")String userName, @Optional("")String password)
+	@Parameters ({"suiteExecutionId", "suiteId", "suiteName", "url","userName","password"})
+	public void beforeSuite(@Optional("") String suiteExecutionId, @Optional("") String suiteId, @Optional("Local Execution") String suiteName, @Optional("")String url, @Optional("")String userName, @Optional("")String password)
 	{
 		System.out.println("@BeforeSuite");
 		loadProperties();
-		
-		this.suiteId=suiteId;
-		this.suiteName=suiteName;
-		this.url=url;
-		this.userName=userName;
-		this.password=password;
-		
-		if(this.url==null || this.url.equals(""))
+				
+		if(suiteExecutionId==null || suiteExecutionId.equals(""))
 		{
-			this.url=configProp.getProperty("url");
+			this.suiteExecutionId.set(0);
+		}
+		else
+		{
+			this.suiteExecutionId.set(Integer.valueOf(suiteExecutionId));
 		}
 		
-		if(this.userName==null || this.userName.equals(""))
+		if(suiteId==null || suiteId.equals(""))
 		{
-			this.userName=credentialsProp.getProperty("userName");
+			this.suiteId.set(0);
+		}
+		else
+		{
+			this.suiteId.set(Integer.valueOf(suiteId));
 		}
 		
-		if(this.password==null || this.password.equals(""))
+		this.suiteName.set(suiteName);
+		this.url.set(url);
+		this.userName.set(userName);
+		this.password.set(password);
+		
+		if(this.url.get()==null || this.url.get().equals(""))
 		{
-			this.password=credentialsProp.getProperty("password");
+			this.url.set(configProp.getProperty("url"));
 		}
 		
-		System.out.println("URL: "+this.url);
+		if(this.userName.get()==null || this.userName.get().equals(""))
+		{
+			this.userName.set(credentialsProp.getProperty("userName"));
+		}
 		
-		System.out.println("suiteId sent to report:"+suiteId);
-		startExtentReport(suiteId);
+		if(this.password.get()==null || this.password.get().equals(""))
+		{
+			this.password.set(credentialsProp.getProperty("password"));
+		}
 		
+		testDataSourceLocalExecution = configProp.getProperty("testDataSource");
+
+		System.out.println("URL: "+this.url.get());
+		
+		System.out.println("suiteExecutionId sent to report:"+suiteExecutionId);
+		startExtentReport(suiteExecutionId);
 	}
 	
 	@BeforeTest
@@ -94,7 +120,7 @@ public class Helper extends SuperHelper{
 	public void beforeMethod()
 	{
 		System.out.println("@BeforeMethod");
-		createNewTest(description, testcaseName);
+		createNewTest(description.get(), testcaseName.get());
 	}
 	
 	@AfterSuite
@@ -132,57 +158,104 @@ public class Helper extends SuperHelper{
 		
 		try{    
 			Connection con=DriverManager.getConnection(configProp.getProperty("db_url"),configProp.getProperty("db_username"),configProp.getProperty("db_password"));  
-			Statement stmt=con.createStatement();  
-			ResultSet rs=stmt.executeQuery("SELECT * FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.RUN_FLAG='Y' AND t.DELETE_FLAG='N'");  
+			Statement stmt=con.createStatement(); 
+			ResultSet testDataMetaResultSet = null;
+			if(suiteExecutionId.get()!=0)
+			{
 			
-			while(rs.next()) 
+			ResultSet resultSetTestDataExec=stmt.executeQuery("SELECT * FROM TEST_DATA_META_EXECUTION_HISTORY_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.SUITE_EXECUTION_ID="+suiteExecutionId.get()+" AND t.DELETE_FLAG='N'");  
+			System.out.println("Info: Executed from UI and TEST_DATA_META_EXECUTION_HISTORY_APP_ONE query is executed");
+			System.out.println("SELECT * FROM TEST_DATA_META_EXECUTION_HISTORY_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.SUITE_EXECUTION_ID="+suiteExecutionId.get()+" AND t.DELETE_FLAG='N'");
+		//	log(Status.INFO, "Info: Executed from UI: Query: SELECT * FROM TEST_DATA_META_EXECUTION_HISTORY_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.SUITE_EXECUTION_ID="+suiteExecutionId.get()+" AND t.DELETE_FLAG='N'");
+			
+			List<Integer> testDataMetaIdList = new ArrayList<>();
+			while(resultSetTestDataExec.next())
+			{
+				testDataMetaIdList.add(resultSetTestDataExec.getInt("TEST_DATA_META_ID"));
+			}
+			resultSetTestDataExec.close();
+			
+			StringBuffer sb=new StringBuffer();
+			
+			for (int i = 0; i < testDataMetaIdList.size(); i++)
+			{
+				sb.append(testDataMetaIdList.get(i));
+				
+				if(i!=(testDataMetaIdList.size()-1))
+				{
+				sb.append(",");
+				}
+			}
+			
+			String testDataMetaIdListAsString = sb.toString();
+			
+			testDataMetaResultSet=stmt.executeQuery("SELECT * FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_DATA_META_ID IN ("+testDataMetaIdListAsString+")");  
+			}
+			else if(testDataSourceLocalExecution.equalsIgnoreCase("database") || testDataSourceLocalExecution.equalsIgnoreCase("db"))
+				{
+				if(queryLocalExecution.get()==null || queryLocalExecution.get().equalsIgnoreCase(""))
+				{
+					testDataMetaResultSet=stmt.executeQuery("SELECT * FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.DELETE_FLAG='N'");  
+					System.out.println("Info: Local Execution and TEST_DATA_META_APP_ONE default query is executed");
+		//			log(Status.INFO, "Info: Local Execution: Query: SELECT * FROM TEST_DATA_META_APP_ONE t WHERE t.TEST_SCRIPT_NAME='"+testScriptName+"' AND t.DELETE_FLAG='N'");
+				}
+				else
+				{
+					testDataMetaResultSet=stmt.executeQuery(queryLocalExecution.get());
+					System.out.println("Info: Local Execution and testscript based customized query is executed");
+		//			log(Status.INFO, "Info: Local Execution and testscript based customized query "+queryLocalExecution.get());
+				}
+			}
+			while(testDataMetaResultSet.next()) 
 			{
 				Statement statementTwo=con.createStatement();  
-				ResultSet resultSetTwo=statementTwo.executeQuery("SELECT * FROM TEST_DATA_APP_TABLE_ONE t WHERE t.TEST_DATA_APP_META_ID="+rs.getInt("TEST_DATA_META_ID"));  
+				ResultSet tableOneResultSet=statementTwo.executeQuery("SELECT * FROM TEST_DATA_APP_TABLE_ONE t WHERE t.TEST_DATA_APP_META_ID="+testDataMetaResultSet.getInt("TEST_DATA_META_ID"));  
 
 				List<TestDataAppOneTableOneEntity> testDataAppOneTableOneEntityList=new ArrayList<>();
 				List<TestDataAppOneTableTwoEntity> testDataAppOneTableTwoEntityList=new ArrayList<>();
 
-				while(resultSetTwo.next())
+				while(tableOneResultSet.next())
 				{
-					if(resultSetTwo.getString("DELETE_FLAG").equals("N"))
+					if(tableOneResultSet.getString("DELETE_FLAG").equals("N"))
 					{
 					TestDataAppOneTableOneEntity testDataAppOneTableOneEntity=new TestDataAppOneTableOneEntity();
-					testDataAppOneTableOneEntity.setTestDataId(resultSetTwo.getInt("TEST_DATA_ID"));
-					testDataAppOneTableOneEntity.setTestRowDetail(resultSetTwo.getString("TEST_ROW_DETAIL"));
-					testDataAppOneTableOneEntity.setColumn1(resultSetTwo.getString("COLUMN1"));
-					testDataAppOneTableOneEntity.setColumn2(resultSetTwo.getString("COLUMN2"));
-					testDataAppOneTableOneEntity.setColumn3(resultSetTwo.getString("COLUMN3"));
-					testDataAppOneTableOneEntity.setColumn4(resultSetTwo.getString("COLUMN4"));
-					testDataAppOneTableOneEntity.setColumn5(resultSetTwo.getString("COLUMN5"));
+					testDataAppOneTableOneEntity.setTestDataId(tableOneResultSet.getInt("TEST_DATA_ID"));
+					testDataAppOneTableOneEntity.setTestRowDetail(tableOneResultSet.getString("TEST_ROW_DETAIL"));
+					testDataAppOneTableOneEntity.setColumn1(tableOneResultSet.getString("COLUMN1"));
+					testDataAppOneTableOneEntity.setColumn2(tableOneResultSet.getString("COLUMN2"));
+					testDataAppOneTableOneEntity.setColumn3(tableOneResultSet.getString("COLUMN3"));
+					testDataAppOneTableOneEntity.setColumn4(tableOneResultSet.getString("COLUMN4"));
+					testDataAppOneTableOneEntity.setColumn5(tableOneResultSet.getString("COLUMN5"));
 					
 					testDataAppOneTableOneEntityList.add(testDataAppOneTableOneEntity);
 					}
 
 				}
-				resultSetTwo=null;
-				resultSetTwo=statementTwo.executeQuery("SELECT * FROM TEST_DATA_APP_TABLE_TWO t WHERE t.TEST_DATA_APP_META_ID="+rs.getInt("TEST_DATA_META_ID"));  
-				while(resultSetTwo.next())
+				tableOneResultSet=null;
+				tableOneResultSet=statementTwo.executeQuery("SELECT * FROM TEST_DATA_APP_TABLE_TWO t WHERE t.TEST_DATA_APP_META_ID="+testDataMetaResultSet.getInt("TEST_DATA_META_ID"));  
+				while(tableOneResultSet.next())
 				{
-					if(resultSetTwo.getString("DELETE_FLAG").equals("N"))
+					if(tableOneResultSet.getString("DELETE_FLAG").equals("N"))
 					{
 					TestDataAppOneTableTwoEntity testDataAppOneTableTwoEntity=new TestDataAppOneTableTwoEntity();
-					testDataAppOneTableTwoEntity.setTestDataId(resultSetTwo.getInt("TEST_DATA_ID"));
-					testDataAppOneTableTwoEntity.setTestRowDetail(resultSetTwo.getString("TEST_ROW_DETAIL"));
-					testDataAppOneTableTwoEntity.setColumnA(resultSetTwo.getString("COLUMN_A"));
-					testDataAppOneTableTwoEntity.setColumnB(resultSetTwo.getString("COLUMN_B"));
-					testDataAppOneTableTwoEntity.setColumnC(resultSetTwo.getString("COLUMN_C"));
-					testDataAppOneTableTwoEntity.setColumnD(resultSetTwo.getString("COLUMN_D"));
-					testDataAppOneTableTwoEntity.setColumnE(resultSetTwo.getString("COLUMN_E"));
+					testDataAppOneTableTwoEntity.setTestDataId(tableOneResultSet.getInt("TEST_DATA_ID"));
+					testDataAppOneTableTwoEntity.setTestRowDetail(tableOneResultSet.getString("TEST_ROW_DETAIL"));
+					testDataAppOneTableTwoEntity.setColumnA(tableOneResultSet.getString("COLUMN_A"));
+					testDataAppOneTableTwoEntity.setColumnB(tableOneResultSet.getString("COLUMN_B"));
+					testDataAppOneTableTwoEntity.setColumnC(tableOneResultSet.getString("COLUMN_C"));
+					testDataAppOneTableTwoEntity.setColumnD(tableOneResultSet.getString("COLUMN_D"));
+					testDataAppOneTableTwoEntity.setColumnE(tableOneResultSet.getString("COLUMN_E"));
 					
 					testDataAppOneTableTwoEntityList.add(testDataAppOneTableTwoEntity);
 					}
 
 				}
 				TestDataMetaAppOneEntity testDataMetaAppOneEntity=new TestDataMetaAppOneEntity();
-				testDataMetaAppOneEntity.setTestDataMetaId(rs.getInt("TEST_DATA_META_ID"));
-				testDataMetaAppOneEntity.setTestTableOne(rs.getInt("TEST_TABLE_ONE"));
-				testDataMetaAppOneEntity.setTestTableTwo(rs.getInt("TEST_TABLE_TWO"));
+				testDataMetaAppOneEntity.setTestDataMetaId(testDataMetaResultSet.getInt("TEST_DATA_META_ID"));
+				testDataMetaAppOneEntity.setTestShortDescription(testDataMetaResultSet.getString("TEST_SHORT_DESCRIPTION"));
+				testDataMetaAppOneEntity.setTestScenario(testDataMetaResultSet.getString("TEST_SCENARIO"));
+				testDataMetaAppOneEntity.setTestTableOne(testDataMetaResultSet.getInt("TEST_TABLE_ONE"));
+				testDataMetaAppOneEntity.setTestTableTwo(testDataMetaResultSet.getInt("TEST_TABLE_TWO"));
 				testDataMetaAppOneEntity.setTestDataAppOneTableOne(testDataAppOneTableOneEntityList);
 				testDataMetaAppOneEntity.setTestDataAppOneTableTwo(testDataAppOneTableTwoEntityList);
 				
@@ -194,6 +267,10 @@ public class Helper extends SuperHelper{
 		{ 
 			System.out.println(e);
 		}  	
+		finally
+		{
+			
+		}
 				 
 		Iterator<TestDataMetaAppOneEntity> iterator=testData.iterator();
 		return iterator;

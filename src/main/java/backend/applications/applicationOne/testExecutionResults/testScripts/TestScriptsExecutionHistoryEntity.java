@@ -1,6 +1,6 @@
 package backend.applications.applicationOne.testExecutionResults.testScripts;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,10 +18,14 @@ import org.springframework.stereotype.Component;
 public class TestScriptsExecutionHistoryEntity
 {
 	@Id
-	@Column(name="TEST_SCRIPT_EXEC_ID")
+	@Column(name="ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@SequenceGenerator(name = "TEST_SCRIPT_EXEC_ID", sequenceName = "TEST_SCRIPT_EXECUTION_ID_SEQ", schema="tamil", allocationSize = 1)
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TEST_SCRIPT_EXEC_ID")
-	private long testScriptExecutionId;
+	private Integer id;
+	
+	@Column(name="SUITE_EXECUTION_ID")
+	private long suiteExecutionId;
 	
 	@Column(name="SUITE_ID")
 	private long suiteId;
@@ -38,58 +42,65 @@ public class TestScriptsExecutionHistoryEntity
 	@Column(name="TEST_SCRIPT_DESCRIPTION")
 	private String testScriptsDescription;
 	
-	@Column(name="CREATED_BY")
-	private String createdBy;
+	@Column(name="EXECUTED_BY")
+	private String executedBy;
 	
-	@Column(name="CREATED_DATE")
-	private Date createdDate;
+	@Column(name="EXECUTED_DATE")
+	private Date executedDate;
 	
 	
 	public TestScriptsExecutionHistoryEntity()
 	{
 		
 	}
-
-
-	public TestScriptsExecutionHistoryEntity(long testScriptExecutionId, long suiteId, long testScriptsId,
-			String testScriptsName, String testScriptsCategory, String testScriptsDescription, String createdBy,
-			Date createdDate)
+	
+	
+	public TestScriptsExecutionHistoryEntity(Integer id, long suiteExecutionId, long suiteId, long testScriptsId,
+			String testScriptsName, String testScriptsCategory, String testScriptsDescription, String executedBy,
+			Date executedDate)
 	{
 		super();
-		this.testScriptExecutionId = testScriptExecutionId;
+		this.id = id;
+		this.suiteExecutionId = suiteExecutionId;
 		this.suiteId = suiteId;
 		this.testScriptsId = testScriptsId;
 		this.testScriptsName = testScriptsName;
 		this.testScriptsCategory = testScriptsCategory;
 		this.testScriptsDescription = testScriptsDescription;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
+		this.executedBy = executedBy;
+		this.executedDate = executedDate;
 	}
 
 
-	public long getTestScriptExecutionId()
+	public Integer getId()
 	{
-		return testScriptExecutionId;
+		return id;
 	}
 
-
-	public void setTestScriptExecutionId(long testScriptExecutionId)
+	public void setId(Integer id)
 	{
-		this.testScriptExecutionId = testScriptExecutionId;
+		this.id = id;
 	}
 
+	public long getSuiteExecutionId()
+	{
+		return suiteExecutionId;
+	}
+
+	public void setSuiteExecutionId(long suiteExecutionId)
+	{
+		this.suiteExecutionId = suiteExecutionId;
+	}
 
 	public long getSuiteId()
 	{
 		return suiteId;
 	}
 
-
 	public void setSuiteId(long suiteId)
 	{
 		this.suiteId = suiteId;
 	}
-
 
 	public long getTestScriptsId()
 	{
@@ -97,9 +108,9 @@ public class TestScriptsExecutionHistoryEntity
 	}
 
 
-	public void setTestScriptsId(long integer)
+	public void setTestScriptsId(long testScriptsId)
 	{
-		this.testScriptsId = integer;
+		this.testScriptsId = testScriptsId;
 	}
 
 
@@ -139,38 +150,40 @@ public class TestScriptsExecutionHistoryEntity
 	}
 
 
-	public String getCreatedBy()
+	public String getExecutedBy()
 	{
-		return createdBy;
+		return executedBy;
 	}
 
 
-	public void setCreatedBy(String createdBy)
+	public void setExecutedBy(String executedBy)
 	{
-		this.createdBy = createdBy;
+		this.executedBy = executedBy;
 	}
 
 
-	public Date getCreatedDate()
+	public Date getExecutedDate()
 	{
-		return createdDate;
+		return executedDate;
 	}
 
 
-	public void setCreatedDate(Date createdDate)
+	public void setExecutedDate(Date executedDate)
 	{
-		this.createdDate = createdDate;
+		this.executedDate = executedDate;
 	}
 
 
 	@Override
 	public String toString()
 	{
-		return "TestScriptsExecutionHistoryEntity [testScriptExecutionId=" + testScriptExecutionId + ", suiteId="
+		return "TestScriptsExecutionHistoryEntity [id=" + id + ", suiteExecutionId=" + suiteExecutionId + ", suiteId="
 				+ suiteId + ", testScriptsId=" + testScriptsId + ", testScriptsName=" + testScriptsName
 				+ ", testScriptsCategory=" + testScriptsCategory + ", testScriptsDescription=" + testScriptsDescription
-				+ ", createdBy=" + createdBy + ", createdDate=" + createdDate + "]";
+				+ ", executedBy=" + executedBy + ", executedDate=" + executedDate + "]";
 	}
+
+	
 
 	
 }

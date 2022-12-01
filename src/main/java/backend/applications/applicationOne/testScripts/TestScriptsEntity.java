@@ -18,7 +18,7 @@ public class TestScriptsEntity
 {
 	@Id
 	@Column(name="TEST_SCRIPT_ID")
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer testScriptsId;
 	
 	@Column(name="TEST_SCRIPT_NAME")

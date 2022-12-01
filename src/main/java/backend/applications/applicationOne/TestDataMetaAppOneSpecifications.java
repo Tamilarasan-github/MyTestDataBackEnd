@@ -1,14 +1,10 @@
 package backend.applications.applicationOne;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -17,23 +13,21 @@ import org.springframework.data.jpa.domain.Specification;
 
 import backend.applications.SearchCriteria;
 import backend.applications.SearchCriteria.SearchOperator;
-import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneEntity;
-import net.bytebuddy.dynamic.scaffold.MethodRegistry.Handler.ForAbstractMethod;
 
 public class TestDataMetaAppOneSpecifications implements Specification<TestDataMetaAppOneEntity>
 {
 
 	private static final long serialVersionUID = 1L;
-	public List<SearchCriteria> searchCriteriaList;
+	public List<SearchCriteria> testDataMetaSearchCriteriaList;
 	
 	public TestDataMetaAppOneSpecifications()
 	{
-		searchCriteriaList=new ArrayList<SearchCriteria>();
+		testDataMetaSearchCriteriaList=new ArrayList<SearchCriteria>();
 	}
 	
-	public void addNewSearchCriteria(SearchCriteria newSearchCriteria)
+	public void addNewTestDataMetaSearchCriteria(SearchCriteria newSearchCriteria)
 	{
-		searchCriteriaList.add(newSearchCriteria);
+		testDataMetaSearchCriteriaList.add(newSearchCriteria);
 	}
 	
 	@Override
@@ -41,7 +35,7 @@ public class TestDataMetaAppOneSpecifications implements Specification<TestDataM
 	{
 		List<Predicate> predicatesList = new ArrayList<Predicate>();
 		
-		for (SearchCriteria searchCriteria : searchCriteriaList)
+		for (SearchCriteria searchCriteria : testDataMetaSearchCriteriaList)
 		{
 			String[] fieldValues=searchCriteria.getStringList();
 			
@@ -51,6 +45,7 @@ public class TestDataMetaAppOneSpecifications implements Specification<TestDataM
 			long number=searchCriteria.getNumber();
 			
 			if(number!=0)
+				
 			{
 				if(searchCriteria.getOperator().equals(SearchOperator.IN))
 				{
@@ -78,7 +73,7 @@ public class TestDataMetaAppOneSpecifications implements Specification<TestDataM
 				}
 				else if(searchCriteria.getOperator().equals(SearchOperator.EQUALS_TO))
 				{
-					//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
+					predicatesList.add(criteriaBuilder.equal(root.get(searchCriteria.getKey()), searchCriteria.getText()));
 				}
 				else if(searchCriteria.getOperator().equals(SearchOperator.NOT_EQUAL))
 				{
@@ -146,23 +141,12 @@ public class TestDataMetaAppOneSpecifications implements Specification<TestDataM
 					{
 						//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
 					}
-				
-				
 			}
 			else if(fieldNumberValuesList!=null && fieldNumberValuesList.size()>0)
-			{
-			
-					//System.out.println("Number Values:"+fieldNumberValues[i]);
-					System.out.println("Operator:"+searchCriteria.getOperator());
-					
-					//long fieldValue=fieldNumberValues[i];
-					
+			{					
 					if(searchCriteria.getOperator().equals(SearchOperator.IN))
 					{
-						System.out.println(searchCriteria.getKey()+" Before Field Number Values...: IN ");
 						predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldNumberValuesList));
-						System.out.println(searchCriteria.getKey()+" After Field Number Values...: IN ");
-
 					}
 					else if(searchCriteria.getOperator().equals(SearchOperator.NOT_IN))
 					{
@@ -204,10 +188,11 @@ public class TestDataMetaAppOneSpecifications implements Specification<TestDataM
 			}
 			else if(searchCriteria.getDateFrom()!=null && searchCriteria.getDateTo()!=null)
 			{
-				SimpleDateFormat dateFormat=new SimpleDateFormat("MM-dd-yyyy");
-				
+				System.out.println("Dates:"+searchCriteria.getKey()+" From "+searchCriteria.getDateFrom()+" to "+searchCriteria.getDateTo());
+
 				if(searchCriteria.getOperator().equals(SearchOperator.BETWEEN_DATES))
 				{			
+					predicatesList.add(criteriaBuilder.between(root.get(searchCriteria.getKey()),searchCriteria.getDateFrom(), searchCriteria.getDateTo()));
 				}
 			}
 		}
