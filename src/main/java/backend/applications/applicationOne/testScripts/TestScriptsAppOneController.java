@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.applications.DataUpdate;
+import backend.applications.RowValues;
 import backend.applications.SearchCriteria;
 import backend.applications.SearchCriteria.SearchOperator;
 import backend.applications.TestScriptSearchRequest;
@@ -127,7 +127,7 @@ public class TestScriptsAppOneController
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<?> updateTestScript(@RequestBody DataUpdate dataUpdateRequest)
+	public ResponseEntity<?> updateTestScript(@RequestBody RowValues dataUpdateRequest)
 	{
 		try
 		{
@@ -157,8 +157,8 @@ public class TestScriptsAppOneController
 		System.out.println(testScriptSearchRequest.toString());
 		TestScriptsAppOneSpecifications testScriptsAppOneSpecifications = new TestScriptsAppOneSpecifications();
 		
-		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("testScriptsId",SearchOperator.IN, testScriptSearchRequest.getTestScriptsId()));
-		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("testScripts",SearchOperator.IN ,testScriptSearchRequest.getTestScripts()));
+		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("testScriptsId",SearchOperator.EQUALS_TO, testScriptSearchRequest.getTestScriptsId()));
+		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("testScripts",SearchOperator.CONTAINS ,testScriptSearchRequest.getTestScripts()));
 		
 		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("testScriptsCategory",SearchOperator.IN,testScriptSearchRequest.getTestScriptsCategory()));
 		testScriptsAppOneSpecifications.addNewSearchCriteria(new SearchCriteria("createdBy",SearchOperator.IN,testScriptSearchRequest.getCreatedBy()));

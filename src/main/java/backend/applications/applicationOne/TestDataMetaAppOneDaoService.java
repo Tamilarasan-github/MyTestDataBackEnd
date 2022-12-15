@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import backend.applications.DataUpdate;
+import backend.applications.RowValues;
 import backend.applications.SearchCriteria;
 import backend.applications.SearchCriteria.SearchOperator;
 import backend.applications.TestDataSearchRequest;
-import backend.applications.UpdatedValues;
+import backend.applications.KeyAndValue;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneEntity;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneRepository;
 import backend.applications.applicationOne.testdataInputTables.tableTwo.TestDataAppOneTableTwoEntity;
@@ -251,16 +252,128 @@ public class TestDataMetaAppOneDaoService
 		return response;	
 	}
 	
-	@Transactional
-	public List<String> updateTestDataMeta(int testTableId, DataUpdate dataUpdateRequests[])
+	
+	public List<String> createTestDataMeta(int testTableId, RowValues newTestDataValues[])
+	{
+
+		ArrayList<String> newTestDataAddedList = new ArrayList<String>();
+		TestDataMetaAppOneEntity newlyAddedTestDataMetaEntity = null;
+		List<String> columnsIntegerType=new ArrayList<String>();
+		columnsIntegerType.add("testPriority");
+		
+			try
+			{
+					
+				for (RowValues row : newTestDataValues)
+				{
+					
+					if (row.getId()==0)
+					{
+					TestDataMetaAppOneEntity testDataMetaAppOneEntity = new TestDataMetaAppOneEntity();
+					testDataMetaAppOneEntity.setTestDataMetaId(null);
+					testDataMetaAppOneEntity.setDeleteFlag("N");
+										
+					for (KeyAndValue column : row.getKeyAndValue())
+					{
+						String attributeName = column.getColumnName();
+						String attributeValue = column.getColumnValue();
+
+						if(!columnsIntegerType.contains(attributeName))
+						{
+							utils.callSetter(testDataMetaAppOneEntity, attributeName, attributeValue);
+						}
+						else
+						{
+							utils.callSetter(testDataMetaAppOneEntity, attributeName, Integer.valueOf(attributeValue));	
+						}
+					}
+					newlyAddedTestDataMetaEntity = testDataMetaRepository.save(testDataMetaAppOneEntity);
+					newTestDataAddedList.add(newlyAddedTestDataMetaEntity.getTestDataMetaId() + " record is added successfully");
+					} 
+				
+				}
+				
+				for (RowValues newTestDataValue : newTestDataValues)
+				{
+					if(newTestDataValue.getId()!=0)
+					{
+					switch (testTableId)
+					{
+					case 2001:
+						TestDataAppOneTableOneEntity testDataAppOneTableOneEntity = new TestDataAppOneTableOneEntity();
+						testDataAppOneTableOneEntity.setTestDataId(null);
+						testDataAppOneTableOneEntity.setDeleteFlag("N");
+						testDataAppOneTableOneEntity.setTestDataMeta(newlyAddedTestDataMetaEntity);
+						
+						for (KeyAndValue column : newTestDataValue.getKeyAndValue())
+						{
+							String attributeName = column.getColumnName();
+							String attributeValue = column.getColumnValue();
+
+							if(!columnsIntegerType.contains(attributeName))
+							{
+								utils.callSetter(testDataAppOneTableOneEntity, attributeName, attributeValue);
+							}
+							else
+							{
+								utils.callSetter(testDataAppOneTableOneEntity, attributeName, Integer.valueOf(attributeValue));	
+							}						
+						}
+						TestDataAppOneTableOneEntity newlyAddedTestDataAppOneTableOneEntity = testDataAppOneTableOneRepository.save(testDataAppOneTableOneEntity);
+						newTestDataAddedList.add(newlyAddedTestDataAppOneTableOneEntity.getTestDataId() + " record is added successfully");
+						break;
+
+					case 2002:
+						TestDataAppOneTableTwoEntity testDataAppOneTableTwoEntity = new TestDataAppOneTableTwoEntity();
+						testDataAppOneTableTwoEntity.setTestDataId(null);
+						testDataAppOneTableTwoEntity.setTestDataMeta(newlyAddedTestDataMetaEntity);
+						testDataAppOneTableTwoEntity.setDeleteFlag("N");
+
+						for (KeyAndValue column : newTestDataValue.getKeyAndValue())
+						{
+							String attributeName = column.getColumnName();
+							String attributeValue = column.getColumnValue();
+
+							if(!columnsIntegerType.contains(attributeName))
+							{
+								utils.callSetter(testDataAppOneTableTwoEntity, attributeName, attributeValue);
+							}
+							else
+							{
+								utils.callSetter(testDataAppOneTableTwoEntity, attributeName, Integer.valueOf(attributeValue));	
+							}						
+						}
+						TestDataAppOneTableTwoEntity newlyAddedTestDataAppOneTableTwoEntity = testDataAppOneTableTwoRepository.save(testDataAppOneTableTwoEntity);
+						newTestDataAddedList.add(newlyAddedTestDataAppOneTableTwoEntity.getTestDataId() + " record is added successfully");
+						
+						break;
+
+					default:
+						break;
+					}
+				}
+			} 
+			}
+			catch (Exception e)
+			{
+				newTestDataAddedList.add("Some record details are failed to be added to new test data");
+			}
+			return newTestDataAddedList;
+
+	}
+
+	
+
+	
+	public List<String> updateTestDataMeta(int testTableId, RowValues dataUpdateRequests[])
 	{
 
 		ArrayList<String> updatedTestDataList = new ArrayList<String>();
-		for (DataUpdate dataUpdateRequest : dataUpdateRequests)
+		for (RowValues dataUpdateRequest : dataUpdateRequests)
 		{
 			try
 			{
-				List<UpdatedValues> columnsUpdateList;
+				List<KeyAndValue> columnsUpdateList;
 
 				Optional<TestDataMetaAppOneEntity> testDataMetaOptional = testDataMetaRepository
 						.findById(dataUpdateRequest.getId());
@@ -268,8 +381,8 @@ public class TestDataMetaAppOneDaoService
 				{
 					TestDataMetaAppOneEntity fetchedTestData = testDataMetaOptional.get();
 
-					columnsUpdateList = dataUpdateRequest.getValues();
-					for (UpdatedValues column : columnsUpdateList)
+					columnsUpdateList = dataUpdateRequest.getKeyAndValue();
+					for (KeyAndValue column : columnsUpdateList)
 					{
 						String attributeName = column.getColumnName();
 						String attributeValue = column.getColumnValue();
@@ -290,8 +403,8 @@ public class TestDataMetaAppOneDaoService
 								.findByTestDataId(Integer.valueOf(dataUpdateRequest.getId()));
 						TestDataAppOneTableOneEntity fetchedTestData = optionalFetchedTestData.get();
 
-						columnsUpdateList = dataUpdateRequest.getValues();
-						for (UpdatedValues column : columnsUpdateList)
+						columnsUpdateList = dataUpdateRequest.getKeyAndValue();
+						for (KeyAndValue column : columnsUpdateList)
 						{
 							String attributeName = column.getColumnName();
 							String attributeValue = column.getColumnValue();
@@ -309,8 +422,8 @@ public class TestDataMetaAppOneDaoService
 								.findByTestDataId(Integer.valueOf(dataUpdateRequest.getId()));
 						TestDataAppOneTableTwoEntity fetchedTestDataTableTwo = optionalFetchedTestDataTableTwo.get();
 
-						columnsUpdateList = dataUpdateRequest.getValues();
-						for (UpdatedValues column : columnsUpdateList)
+						columnsUpdateList = dataUpdateRequest.getKeyAndValue();
+						for (KeyAndValue column : columnsUpdateList)
 						{
 							String attributeName = column.getColumnName();
 							String attributeValue = column.getColumnValue();

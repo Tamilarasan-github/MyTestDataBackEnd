@@ -101,6 +101,7 @@ public class TestSuiteExecutionHistoryService
 
 					HashMap<String, String> testngParams = new HashMap<String, String>();
 					testngParams.put("browserName", testSuiteExecution.getBrowser());
+					testngParams.put("suiteExecutionId", String.valueOf(testSuiteExecution.getExecutionId()));
 					testngParams.put("suiteId", String.valueOf(testSuiteExecution.getSuiteId()));
 					testngParams.put("suiteName", testSuiteExecution.getSuiteName());
 					testngParams.put("url", testSuiteExecution.getUrl());

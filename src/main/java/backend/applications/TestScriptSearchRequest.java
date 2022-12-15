@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class TestScriptSearchRequest
 {
 	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-	private List<Integer> testScriptsId;
-	private String testScripts[];
+	private Integer testScriptsId;
+	private String testScripts;
 	private String testScriptsCategory[];
 	private String createdBy[];
 	private Date createdDateFrom;
@@ -27,7 +27,7 @@ public class TestScriptSearchRequest
 		
 	}
 
-	public TestScriptSearchRequest(List<Integer> testScriptsId, String[] testScripts, String[] testScriptsCategory,
+	public TestScriptSearchRequest(Integer testScriptsId, String testScripts, String[] testScriptsCategory,
 			String[] createdBy, Date createdDateFrom, Date createdDateTo, String[] updatedBy, Date updatedDateFrom,
 			Date updatedDateTo)
 	{
@@ -43,22 +43,22 @@ public class TestScriptSearchRequest
 		this.updatedDateTo = updatedDateTo;
 	}
 
-	public List<Integer> getTestScriptsId()
+	public Integer getTestScriptsId()
 	{
 		return testScriptsId;
 	}
 
-	public void setTestScriptsId(List<Integer> testScriptsId)
+	public void setTestScriptsId(Integer testScriptsId)
 	{
 		this.testScriptsId = testScriptsId;
 	}
 
-	public String[] getTestScripts()
+	public String getTestScripts()
 	{
 		return testScripts;
 	}
 
-	public void setTestScripts(String[] testScripts)
+	public void setTestScripts(String testScripts)
 	{
 		this.testScripts = testScripts;
 	}
@@ -136,15 +136,12 @@ public class TestScriptSearchRequest
 	@Override
 	public String toString()
 	{
-		return "TestScriptSearchRequest [testScriptsId=" + testScriptsId + ", testScripts="
-				+ Arrays.toString(testScripts) + ", testScriptsCategory=" + Arrays.toString(testScriptsCategory)
-				+ ", createdBy=" + Arrays.toString(createdBy) + ", createdDateFrom=" + createdDateFrom
-				+ ", createdDateTo=" + createdDateTo + ", updatedBy=" + Arrays.toString(updatedBy)
-				+ ", updatedDateFrom=" + updatedDateFrom + ", updatedDateTo=" + updatedDateTo + "]";
+		return "TestScriptSearchRequest [testScriptsId=" + testScriptsId + ", testScripts=" + testScripts
+				+ ", testScriptsCategory=" + Arrays.toString(testScriptsCategory) + ", createdBy="
+				+ Arrays.toString(createdBy) + ", createdDateFrom=" + createdDateFrom + ", createdDateTo="
+				+ createdDateTo + ", updatedBy=" + Arrays.toString(updatedBy) + ", updatedDateFrom=" + updatedDateFrom
+				+ ", updatedDateTo=" + updatedDateTo + "]";
 	}
-
-	
-
 
 	
 	

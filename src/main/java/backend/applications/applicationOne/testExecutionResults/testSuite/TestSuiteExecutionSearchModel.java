@@ -5,32 +5,44 @@ import java.util.Date;
 
 public class TestSuiteExecutionSearchModel
 {
-	private long suiteId;
+	private Integer executionId;
+	private Integer suiteId;
 	private String suiteName;
 	private String suiteStatus[];
 	private String url;
-	private String createdBy[];
-	private Date createdDateFrom;
-	private Date createdDateTo;
-		
-	public TestSuiteExecutionSearchModel(long suiteId, String suiteName, String[] suiteStatus, String url,
-			String[] createdBy, Date createdDateFrom, Date createdDateTo)
+	private String executedBy[];
+	private Date executedDateFrom;
+	private Date executedDateTo;
+	
+	TestSuiteExecutionSearchModel()
+	{}
+	
+	public TestSuiteExecutionSearchModel(Integer executionId, Integer suiteId, String suiteName, String[] suiteStatus,
+			String url, String[] executedBy, Date executedDateFrom, Date executedDateTo)
 	{
 		super();
+		this.executionId = executionId;
 		this.suiteId = suiteId;
 		this.suiteName = suiteName;
 		this.suiteStatus = suiteStatus;
 		this.url = url;
-		this.createdBy = createdBy;
-		this.createdDateFrom = createdDateFrom;
-		this.createdDateTo = createdDateTo;
+		this.executedBy = executedBy;
+		this.executedDateFrom = executedDateFrom;
+		this.executedDateTo = executedDateTo;
 	}
-	
-	public long getSuiteId()
+	public Integer getExecutionId()
+	{
+		return executionId;
+	}
+	public void setExecutionId(Integer executionId)
+	{
+		this.executionId = executionId;
+	}
+	public Integer getSuiteId()
 	{
 		return suiteId;
 	}
-	public void setSuiteId(long suiteId)
+	public void setSuiteId(Integer suiteId)
 	{
 		this.suiteId = suiteId;
 	}
@@ -58,39 +70,38 @@ public class TestSuiteExecutionSearchModel
 	{
 		this.url = url;
 	}
-	public String[] getCreatedBy()
+	public String[] getExecutedBy()
 	{
-		return createdBy;
+		return executedBy;
 	}
-	public void setCreatedBy(String[] createdBy)
+	public void setExecutedBy(String[] executedBy)
 	{
-		this.createdBy = createdBy;
+		this.executedBy = executedBy;
 	}
-	public Date getCreatedDateFrom()
+	public Date getExecutedDateFrom()
 	{
-		return createdDateFrom;
+		return executedDateFrom;
 	}
-	public void setCreatedDateFrom(Date createdDateFrom)
+	public void setExecutedDateFrom(Date executedDateFrom)
 	{
-		this.createdDateFrom = createdDateFrom;
+		this.executedDateFrom = executedDateFrom;
 	}
-	public Date getCreatedDateTo()
+	public Date getExecutedDateTo()
 	{
-		return createdDateTo;
+		return executedDateTo;
 	}
-	public void setCreatedDateTo(Date createdDateTo)
+	public void setExecutedDateTo(Date executedDateTo)
 	{
-		this.createdDateTo = createdDateTo;
+		this.executedDateTo = executedDateTo;
 	}
-
 	@Override
 	public String toString()
 	{
-		return "TestSuiteExecutionSearchModel [suiteId=" + suiteId + ", suiteName=" + suiteName + ", suiteStatus="
-				+ Arrays.toString(suiteStatus) + ", url=" + url + ", createdBy=" + Arrays.toString(createdBy)
-				+ ", createdDateFrom=" + createdDateFrom + ", createdDateTo=" + createdDateTo + "]";
+		return "TestSuiteExecutionSearchModel [executionId=" + executionId + ", suiteId=" + suiteId + ", suiteName="
+				+ suiteName + ", suiteStatus=" + Arrays.toString(suiteStatus) + ", url=" + url + ", executedBy="
+				+ Arrays.toString(executedBy) + ", executedDateFrom=" + executedDateFrom + ", executedDateTo="
+				+ executedDateTo + "]";
 	}
-
-	
+		
 	
 }

@@ -21,7 +21,7 @@ public class TestDataSearchRequest
 	private String jiraId[];
 	private String runFlag[];
 	private String testScriptName[];
-	private String testShortDescription[];
+	private String testShortDescription;
 	private String testCategory[];
 	private String testPriority[];
 	private String createdBy[];
@@ -87,12 +87,12 @@ public class TestDataSearchRequest
 		this.testScriptName = testScriptName;
 	}
 
-	public String[] getTestShortDescription()
+	public String getTestShortDescription()
 	{
 		return testShortDescription;
 	}
 
-	public void setTestShortDescription(String[] testShortDescription)
+	public void setTestShortDescription(String testShortDescription)
 	{
 		this.testShortDescription = testShortDescription;
 	}
@@ -180,14 +180,16 @@ public class TestDataSearchRequest
 	@Override
 	public String toString()
 	{
-		return "TestDataSearchRequest [testDataMetaId=" + testDataMetaId + ", testCaseId=" + Arrays.toString(testCaseId) + ", jiraId=" + Arrays.toString(jiraId) + ", runFlag="
-				+ Arrays.toString(runFlag) + ", testScriptName=" + Arrays.toString(testScriptName)
-				+ ", testShortDescription=" + Arrays.toString(testShortDescription) + ", testCategory="
+		return "TestDataSearchRequest [testDataMetaId=" + testDataMetaId + ", testCaseId=" + Arrays.toString(testCaseId)
+				+ ", jiraId=" + Arrays.toString(jiraId) + ", runFlag=" + Arrays.toString(runFlag) + ", testScriptName="
+				+ Arrays.toString(testScriptName) + ", testShortDescription=" + testShortDescription + ", testCategory="
 				+ Arrays.toString(testCategory) + ", testPriority=" + Arrays.toString(testPriority) + ", createdBy="
 				+ Arrays.toString(createdBy) + ", createdFrom=" + createdFrom + ", createdTo=" + createdTo
 				+ ", updatedBy=" + Arrays.toString(updatedBy) + ", updatedFrom=" + updatedFrom + ", updatedTo="
 				+ updatedTo + "]";
 	}
+
+	
 	
 	
 }

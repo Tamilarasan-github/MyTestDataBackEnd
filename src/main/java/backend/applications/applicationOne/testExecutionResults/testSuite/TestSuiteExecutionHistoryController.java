@@ -89,12 +89,20 @@ public class TestSuiteExecutionHistoryController
 				page, size, Sort.by(sort).ascending());
 		
 		TestSuiteExecutionHistorySpecifications testSuiteExecutionHistorySpecs=new TestSuiteExecutionHistorySpecifications();
+		
+		if(testSuiteExecutionSearchModel.getExecutionId()!=null)
+		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("executionId", SearchOperator.EQUALS_TO, testSuiteExecutionSearchModel.getExecutionId()));
+	
 		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("suiteName", SearchOperator.EQUALS_TO, testSuiteExecutionSearchModel.getSuiteName()));
 		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("url", SearchOperator.EQUALS_TO, testSuiteExecutionSearchModel.getUrl()));
+		
+		if(testSuiteExecutionSearchModel.getSuiteId()!=null)
 		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("suiteId", SearchOperator.EQUALS_TO, testSuiteExecutionSearchModel.getSuiteId()));
+		
+		
 		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("suiteStatus", SearchOperator.IN, testSuiteExecutionSearchModel.getSuiteStatus()));
-		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("createdBy", SearchOperator.IN, testSuiteExecutionSearchModel.getCreatedBy()));
-		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("createdDate", SearchOperator.BETWEEN_DATES, testSuiteExecutionSearchModel.getCreatedDateFrom(), testSuiteExecutionSearchModel.getCreatedDateTo()));
+		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("executedBy", SearchOperator.IN, testSuiteExecutionSearchModel.getExecutedBy()));
+		testSuiteExecutionHistorySpecs.addNewTestSuiteExecutionHistorySpecifications(new SearchCriteria("executedDate", SearchOperator.BETWEEN_DATES, testSuiteExecutionSearchModel.getExecutedDateFrom(), testSuiteExecutionSearchModel.getExecutedDateTo()));
 				
 		Page<TestSuiteExecutionHistoryEntity> pageRecords=testSuiteExecutionHistoryRepository.findAll(testSuiteExecutionHistorySpecs, paging);
 		
@@ -407,13 +415,12 @@ public class TestSuiteExecutionHistoryController
 		return suiteId+" execution is stopped!";
 	}
 	
-	@GetMapping("/view-report/{suiteId}")
-	public String viewReport(@PathVariable("suiteId") String suiteId)
+	@GetMapping("/view-report/{suiteExecutionId}")
+	public String viewReport(@PathVariable("suiteExecutionId") String suiteExecutionId)
 	{
-		System.out.println("View Report:"+suiteId);
-		return suiteId;
+		System.out.println("View Report:(suiteExecutionId):"+suiteExecutionId);
+		return suiteExecutionId;
 
 	}
 
-	
 }

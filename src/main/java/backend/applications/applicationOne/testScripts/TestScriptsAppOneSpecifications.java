@@ -18,6 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import backend.applications.SearchCriteria;
 import backend.applications.SearchCriteria.SearchOperator;
+import backend.applications.applicationOne.testExecutionResults.testSuite.TestSuiteExecutionHistoryEntity;
 import backend.applications.applicationOne.testdataInputTables.tableOne.TestDataAppOneTableOneEntity;
 import net.bytebuddy.dynamic.scaffold.MethodRegistry.Handler.ForAbstractMethod;
 
@@ -48,10 +49,12 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 			
 			List<Integer> fieldNumberValuesList=searchCriteria.getNumberList();
 			
-			
 			long number=searchCriteria.getNumber();
 			
+			String text=searchCriteria.getText();
+			
 			if(number!=0)
+				
 			{
 				if(searchCriteria.getOperator().equals(SearchOperator.IN))
 				{
@@ -79,7 +82,7 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 				}
 				else if(searchCriteria.getOperator().equals(SearchOperator.EQUALS_TO))
 				{
-					//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
+					predicatesList.add(criteriaBuilder.equal(root.get(searchCriteria.getKey()), searchCriteria.getNumber()));
 				}
 				else if(searchCriteria.getOperator().equals(SearchOperator.NOT_EQUAL))
 				{
@@ -87,11 +90,22 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 				}
 				else if(searchCriteria.getOperator().equals(SearchOperator.CONTAINS))
 				{
-					//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
+					predicatesList.add(criteriaBuilder.like(root.get(searchCriteria.getKey()), "%"+searchCriteria.getNumber()+"%"));
 				}
 				else if(searchCriteria.getOperator().equals(SearchOperator.STARTS_WITH))
 				{
 					//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
+				}
+			}
+			else if(text!=null && !text.isEmpty())
+			{
+				if(searchCriteria.getOperator().equals(SearchOperator.CONTAINS))
+				{
+					predicatesList.add(criteriaBuilder.like(root.get(searchCriteria.getKey()), "%"+searchCriteria.getText()+"%"));
+				}
+				else if(searchCriteria.getOperator().equals(SearchOperator.EQUALS_TO))
+				{
+					predicatesList.add(criteriaBuilder.equal(root.get(searchCriteria.getKey()), searchCriteria.getText()));
 				}
 			}
 			else if(fieldValues!=null && fieldValues.length>0)
@@ -141,29 +155,18 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 					}
 					else if(searchCriteria.getOperator().equals(SearchOperator.CONTAINS))
 					{
-						//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
+						predicatesList.add(criteriaBuilder.like(root.get(searchCriteria.getKey()), "%"+searchCriteria.getText()+"%"));
 					}
 					else if(searchCriteria.getOperator().equals(SearchOperator.STARTS_WITH))
 					{
 						//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
 					}
-				
-				
 			}
 			else if(fieldNumberValuesList!=null && fieldNumberValuesList.size()>0)
-			{
-			
-					//System.out.println("Number Values:"+fieldNumberValues[i]);
-					System.out.println("Operator:"+searchCriteria.getOperator());
-					
-					//long fieldValue=fieldNumberValues[i];
-					
+			{					
 					if(searchCriteria.getOperator().equals(SearchOperator.IN))
 					{
-						System.out.println(searchCriteria.getKey()+" Before Field Number Values...: IN ");
 						predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldNumberValuesList));
-						System.out.println(searchCriteria.getKey()+" After Field Number Values...: IN ");
-
 					}
 					else if(searchCriteria.getOperator().equals(SearchOperator.NOT_IN))
 					{
@@ -195,7 +198,7 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 					}
 					else if(searchCriteria.getOperator().equals(SearchOperator.CONTAINS))
 					{
-						//predicatesList.add(criteriaBuilder.in(root.get(searchCriteria.getKey())).value(fieldValuesList));
+						predicatesList.add(criteriaBuilder.like(root.get(searchCriteria.getKey()), "%"+searchCriteria.getText()+"%"));
 					}
 					else if(searchCriteria.getOperator().equals(SearchOperator.STARTS_WITH))
 					{
@@ -204,8 +207,8 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 				
 			}
 			else if(searchCriteria.getDateFrom()!=null && searchCriteria.getDateTo()!=null)
-			{	
-				System.out.println("Test scripts Dates:"+searchCriteria.getKey()+" From "+searchCriteria.getDateFrom()+" to "+searchCriteria.getDateTo());
+			{
+				System.out.println("Dates:"+searchCriteria.getKey()+" From "+searchCriteria.getDateFrom()+" to "+searchCriteria.getDateTo());
 
 				if(searchCriteria.getOperator().equals(SearchOperator.BETWEEN_DATES))
 				{			
@@ -223,7 +226,7 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 		
 	
 	
-	public List<Predicate> conditions(List<Predicate> predicatesList,SearchCriteria searchCriteria, String fieldValue, Root<TestScriptsEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)
+	public List<Predicate> conditions(List<Predicate> predicatesList,SearchCriteria searchCriteria, String fieldValue, Root<TestSuiteExecutionHistoryEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)
 	{
 		if(searchCriteria.getOperator().equals(SearchOperator.IN))
 		{
@@ -269,7 +272,7 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 		return predicatesList;
 	}
 	
-	public List<Predicate> conditionsNumber(List<Predicate> predicatesList,SearchCriteria searchCriteria, long fieldValue, Root<TestScriptsEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)
+	public List<Predicate> conditionsNumber(List<Predicate> predicatesList,SearchCriteria searchCriteria, long fieldValue, Root<TestSuiteExecutionHistoryEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)
 	{
 		if(searchCriteria.getOperator().equals(SearchOperator.IN))
 		{
@@ -314,6 +317,5 @@ public class TestScriptsAppOneSpecifications implements Specification<TestScript
 		
 		return predicatesList;
 	}
-
-
+	
 }

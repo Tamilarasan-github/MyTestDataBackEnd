@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.applications.DataUpdate;
+import backend.applications.RowValues;
 import backend.applications.SearchCriteria;
 import backend.applications.TestDataMetaDropdownValues;
 import backend.applications.TestDataSearchRequest;
@@ -147,7 +147,7 @@ public class TestDataAppOneTableOneController
 		testDataMetaSpecs.addNewTestDataMetaSearchCriteria(new SearchCriteria("runFlag",SearchOperator.IN,testDataSearchRequest.getRunFlag()));
 		
 		testDataMetaSpecs.addNewTestDataMetaSearchCriteria(new SearchCriteria("testScriptName",SearchOperator.IN,testDataSearchRequest.getTestScriptName()));
-		testDataMetaSpecs.addNewTestDataMetaSearchCriteria(new SearchCriteria("testShortDescription",SearchOperator.IN,testDataSearchRequest.getTestShortDescription()));
+		testDataMetaSpecs.addNewTestDataMetaSearchCriteria(new SearchCriteria("testShortDescription",SearchOperator.CONTAINS,testDataSearchRequest.getTestShortDescription()));
 		
 		testDataMetaSpecs.addNewTestDataMetaSearchCriteria(new SearchCriteria("testPriority",SearchOperator.IN,testDataSearchRequest.getTestPriority())); 
 		testDataMetaSpecs.addNewTestDataMetaSearchCriteria(new SearchCriteria("testCategory",SearchOperator.IN,testDataSearchRequest.getTestCategory())); 	
@@ -210,17 +210,17 @@ public class TestDataAppOneTableOneController
 		return testDataDaoService.cloneTestDataMeta(tableId, testDataMeta);
 	}
 	
-	@PostMapping("tables/{tableId}/create")
+	@PostMapping("tables/{tableId}/create1")
 	public TestDataMetaAppOneEntity createTestData(@PathVariable("tableId") Long tableId, @RequestBody TestDataMetaAppOneEntity testDataMeta)
 	{
 		return testDataDaoService.createTestDataMeta(testDataMeta);
 	}
 	
 	@PatchMapping("tables/{tableId}/update")
-	public ResponseEntity<List<String>> updateTestData(@PathVariable("tableId") Long tableId, @RequestBody DataUpdate dataUpdate[])
+	public ResponseEntity<List<String>> updateTestData(@PathVariable("tableId") Long tableId, @RequestBody RowValues dataUpdate[])
 	{
 		
-		for (DataUpdate dataUpdatePrint : dataUpdate)
+		for (RowValues dataUpdatePrint : dataUpdate)
 		{
 			System.out.println("Updates requested:"+dataUpdatePrint.toString());
 		}
@@ -251,6 +251,47 @@ public class TestDataAppOneTableOneController
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(updateStatus,
+				HttpStatus.ACCEPTED);
+
+	}
+	
+	
+	@PostMapping("tables/{tableId}/create")
+	public ResponseEntity<List<String>> createTestData(@PathVariable("tableId") Long tableId, @RequestBody RowValues rowValues[])
+	{
+		System.out.println("Request:" +rowValues.toString());
+		for (RowValues rowValue : rowValues)
+		{
+			System.out.println("New Test Data Request:"+rowValue.toString());
+		}
+		
+		List<String> addNewTestDataStatus=new ArrayList<>();
+		boolean failFlag=false;
+		try 
+		{
+			addNewTestDataStatus.addAll(testDataDaoService.createTestDataMeta(tableId.intValue(), rowValues));
+			
+			for (String status : addNewTestDataStatus)
+			{
+				if(status.contains("fail"))
+				{
+					failFlag=true;
+				}
+			}
+			
+			if(failFlag==true)
+				{
+				return new ResponseEntity<>(addNewTestDataStatus,
+						HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+		} 
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return new ResponseEntity<>(addNewTestDataStatus,
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(addNewTestDataStatus,
 				HttpStatus.ACCEPTED);
 
 	}

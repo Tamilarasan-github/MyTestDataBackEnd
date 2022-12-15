@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import backend.applications.DataUpdate;
-import backend.applications.UpdatedValues;
+import backend.applications.RowValues;
+import backend.applications.KeyAndValue;
 import backend.utils.Utils;
 
 @Service
@@ -44,7 +44,7 @@ public class TestScriptsAppOneService
 
 	
 	@Transactional
-	public TestScriptsEntity updateTestScripts(DataUpdate dataUpdateRequest) {
+	public TestScriptsEntity updateTestScripts(RowValues dataUpdateRequest) {
 		System.out.println("updateTestScriptRequest:" +dataUpdateRequest.toString());
 		List<TestScriptsEntity> updatedTestScriptsEntityList=new ArrayList<>();
 //		for(DataUpdate testScript:dataUpdateRequest)
@@ -52,10 +52,10 @@ public class TestScriptsAppOneService
 			Optional <TestScriptsEntity> optionalFetchedTestScript = testScriptsAppOneRepository.findByTestScriptId(Integer.valueOf(dataUpdateRequest.getId()));
 			TestScriptsEntity fetchedTestScript = optionalFetchedTestScript.get();
 			
-			List<UpdatedValues> columnsUpdateList = dataUpdateRequest.getValues();
+			List<KeyAndValue> columnsUpdateList = dataUpdateRequest.getKeyAndValue();
 			System.out.println("fetchedTestScript: Before:" +fetchedTestScript.toString());
 			
-			for (UpdatedValues column : columnsUpdateList)
+			for (KeyAndValue column : columnsUpdateList)
 			{
 				String attributeName=column.getColumnName();
 				String attributeValue=column.getColumnValue();
